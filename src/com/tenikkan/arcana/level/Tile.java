@@ -4,22 +4,16 @@ public abstract class Tile
 {
     private int id;
     private String name;
-    private boolean solid;
-    private int color;
     
-    public Tile(String name, int id, boolean solid, int color) 
+    public Tile(String name, int id) 
     {
         this.name = name;
         this.id = id;
-        this.solid = solid;
-        this.color = color;
-        
-        TileManager.add(this);
     }
     
-    public int getColorCode() { return color; }
+    public abstract int getColorCode(int data);
     
-    public boolean isSolid() { return solid; }
+    public abstract boolean isSolid(int data);
     
     public String getName() { return name; }
     

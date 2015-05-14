@@ -2,7 +2,7 @@ package com.tenikkan.arcana.level;
 
 public class TileManager
 {
-    private static Tile[] tiles;
+    private static Tile[] tiles = new Tile[256];
     
     public static void setSize(int amt) { tiles = new Tile[amt]; }
     
@@ -14,7 +14,7 @@ public class TileManager
     
     public static Tile get(int id) 
     { 
-        if(id < 0 || id >= tiles.length) return null;
+        if(id < 0 || id >= tiles.length) return tiles[0];
         return tiles[id]; 
     };
 }

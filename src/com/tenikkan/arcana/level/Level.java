@@ -2,7 +2,8 @@ package com.tenikkan.arcana.level;
 
 public class Level
 {
-    private int tiles[];
+    private TileData NULL_TILEDATA = new TileData(0);
+    private TileData tiles[];
     private int width, height;
     
     public Level(int width, int height) 
@@ -13,21 +14,25 @@ public class Level
         initTiles();
     }
     
-    public void setTileID(int x, int y, int id) 
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+    
+    public void setTile(int x, int y, int id) 
     {
         if(!inBounds(x, y)) return;
-        tiles[x + y*width] = id;
+        tiles[x + y*width].setTileID(id);
+        tiles[x + y*width].setData(0);
     }
     
-    public int getTileID(int x, int y) 
+    public TileData getTileData(int x, int y) 
     {
-        if(!inBounds(x, y)) return -1;
+        if(!inBounds(x, y)) return NULL_TILEDATA;
         return tiles[x + y*width];
     }
     
     public Tile getTile(int x, int y) 
     {
-        return TileManager.get(getTileID(x, y));
+        return TileManager.get(getTileData(x, y).getTileID());
     }
     
     public boolean inBounds(int x, int y) 
@@ -37,6 +42,8 @@ public class Level
     
     private void initTiles() 
     {
-        tiles = new int[width*height];
+        tiles = new TileData[width*height];
+        for(int i = 0; i < tiles.length; i++)
+            tiles[i] = new TileData((int)(Math.random() * 2) + 1);
     }
 }
