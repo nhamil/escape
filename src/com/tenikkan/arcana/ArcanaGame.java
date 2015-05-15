@@ -40,10 +40,10 @@ public class ArcanaGame extends GameLoop
         
         render = new Renderer(display.getGraphics(), camera, display.getWidth(), display.getHeight());
         
-        level = new Level(800, 600);
+        level = new Level(20, 40);
         level.setTile(0, 0, 0);
         
-        player = new Player("Thinic", new Vector2f(0, 600 - 19));
+        player = new Player("Thinic", new Vector2f(0, 40 - 19));
         
         TileManager.add(new AirTile(0));
         TileManager.add(new GrassTile(1));
@@ -57,7 +57,7 @@ public class ArcanaGame extends GameLoop
         
         camera.setPosition(player.getPosition().add(player.getWidth()/2, player.getHeight()/2));
         
-        if(Physics.isCollision(player, level)) Physics.handleCollision(player, level);
+        System.out.println(Physics.handleCollision(player, level));
         
         display.setTitle(TITLE + " - " + getData());
     }

@@ -84,8 +84,8 @@ public abstract class Entity
     public void setPosition(Vector2f pos) { position = pos; }
     public void setVelocity(Vector2f vel) { velocity = vel; }
     
-    public void move(Vector2f move) { position.add(move); }
-    public void accelerate(Vector2f accel) { velocity.add(accel); }
+    public void move(Vector2f move) { position = position.add(move); }
+    public void accelerate(Vector2f accel) { velocity = velocity.add(accel); }
     
     public int getColorCode() { return color; }
     

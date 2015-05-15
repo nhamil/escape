@@ -36,6 +36,11 @@ public class Vector2f
     
     public float dot(final Vector2f r) { return x * r.x + y * r.y; }
     
+    public float angle() 
+    {
+        return (float)Math.toDegrees(Math.atan2(y, x));
+    }
+    
     public Vector2f normalized() 
     {
         float len = length();
