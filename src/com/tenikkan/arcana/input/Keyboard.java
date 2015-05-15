@@ -14,12 +14,10 @@ import java.util.List;
  */
 public class Keyboard extends KeyAdapter
 {   
-    public static final int FORWARD = KeyEvent.VK_I;
-    public static final int BACKWARD = KeyEvent.VK_K;
     public static final int LEFT = KeyEvent.VK_J;
     public static final int RIGHT = KeyEvent.VK_L;
-    public static final int UP = KeyEvent.VK_SPACE;
-    public static final int DOWN = KeyEvent.VK_SHIFT;
+    public static final int UP = KeyEvent.VK_I;
+    public static final int DOWN = KeyEvent.VK_K;
     public static final int ESCAPE = KeyEvent.VK_ESCAPE;
     
     private boolean keys[]; 

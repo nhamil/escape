@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.tenikkan.arcana.Camera;
+import com.tenikkan.arcana.entity.Entity;
 import com.tenikkan.arcana.level.Level;
 
 public class Renderer
@@ -25,43 +26,52 @@ public class Renderer
         float cx = cam.getPosition().getX();
         float cy = cam.getPosition().getY();
         
-        int xStart = getXCoord(-cx);
-        int yStart = getYCoord(-cy);
+        int ppuInt = cam.getIntPixelsPerUnit();
         
-        int xIStart = (int)(cx - width / cam.getPixelsPerUnit() / 2);
-        int yIStart = (int)(cy - height / cam.getPixelsPerUnit() / 2);
+        int xCenter = (int)Math.floor(cx);
+        int yCenter = (int)Math.floor(cy);
         
-        for(int y = -1; y < height / cam.getPixelsPerUnit(); y++) 
+        int w2 = width  / (2 *ppuInt);
+        int h2 = height / (2 * ppuInt);
+        
+        for(int y = -h2 - 2; y < h2 + 3; y++) 
         {
-            int yy = y + yIStart;
-            int yDraw = getYDisplacement(yy) + yStart;
-            for(int x = -1; x < width / cam.getPixelsPerUnit(); x++) 
+            int yIndex = yCenter + y;
+            for(int x = -w2 - 2; x < w2 + 3; x++) 
             {
-                int xx = x + xIStart;
-                int xDraw = getXDisplacement(xx) + xStart;
-                g.setColor(new Color(level.getTileData(xx, yy).getColorCode()));
-                g.fillRect(xDraw, yDraw, cam.getIntPixelsPerUnit(), cam.getIntPixelsPerUnit());
+                int xIndex = xCenter + x;
+                g.setColor(new Color(level
+                        .getTileData(xIndex, yIndex)
+                        .getColorCode()));
+                drawRect(xIndex, yIndex, 1, 1);
             }
         }
     }
     
-    private int getXDisplacement(float x) 
+    public void drawEntity(Entity e) 
     {
-        return (int)Math.floor(x * cam.getPixelsPerUnit());
+        float x = e.getPosition().getX();
+        float y = e.getPosition().getY();
+        float w = e.getWidth();
+        float h = e.getHeight();
+        
+        g.setColor(new Color(e.getColorCode()));
+        drawRect(x, y, w, h);
     }
     
-    private int getYDisplacement(float y) 
+    private void drawRect(float x, float y, float w, float h) 
     {
-        return (int)Math.floor(y * cam.getPixelsPerUnit());
-    }
-    
-    private int getXCoord(float x) 
-    {
-        return (int)Math.floor(width / 2 + getXDisplacement(x));
-    }
-    
-    private int getYCoord(float y) 
-    {
-        return (int)Math.floor(height / 2 - getYDisplacement(y));
+        float cx = cam.getPosition().getX();
+        float cy = cam.getPosition().getY();
+        
+        float ppu = cam.getPixelsPerUnit();
+        
+        x = x - cx;
+        y = cy - y;
+        
+        float yDraw = height/2f + y*ppu - h * ppu;
+        float xDraw = width/2f + x*ppu;
+        
+        g.fillRect((int)Math.ceil(xDraw), (int)Math.ceil(yDraw), (int)Math.ceil(w * ppu), (int)Math.ceil(h * ppu));
     }
 }

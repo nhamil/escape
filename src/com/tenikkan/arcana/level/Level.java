@@ -45,5 +45,13 @@ public class Level
         tiles = new TileData[width*height];
         for(int i = 0; i < tiles.length; i++)
             tiles[i] = new TileData((int)(Math.random() * 2) + 1);
+        for(int y = height - 20; y < height; y++) 
+        {
+            for(int x = 0; x < width; x++) 
+            {
+                if(height - y < 20) setTile(x, y, 0);
+                else if(Math.random() > 0.5) setTile(x, y, 0);
+            }
+        }
     }
 }
