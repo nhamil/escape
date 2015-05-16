@@ -7,14 +7,18 @@ package com.tenikkan.arcana.input;
  * @author Nicholas Hamilton
  *
  */
-public class KeyboardController extends Controller
+public class KeyboardController implements IController
 {   
     private Keyboard keyboard;
     
-    public KeyboardController(Keyboard keyboard, int id) 
+    public KeyboardController(Keyboard keyboard) 
     {
-        super("keyboard", id);
         this.keyboard = keyboard;
+    }
+    
+    public void update() 
+    {
+        
     }
     
     public boolean get(Input in) 

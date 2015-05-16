@@ -3,19 +3,19 @@
  */
 package com.tenikkan.arcana.entity;
 
-import static com.tenikkan.arcana.input.Controller.Input.*;
+import static com.tenikkan.arcana.input.IController.Input.*;
 
-import com.tenikkan.arcana.Resource;
 import com.tenikkan.arcana.Physics;
-import com.tenikkan.arcana.input.Controller;
+import com.tenikkan.arcana.input.IController;
 import com.tenikkan.arcana.level.Level;
 import com.tenikkan.math.Vector2f;
+import com.tenikkan.util.Identifiable;
 
 /**
  * @author Nicholas Hamilton
  *
  */
-public abstract class Entity
+public abstract class Entity implements Identifiable
 {   
     private int color;
     private String name;
@@ -23,13 +23,15 @@ public abstract class Entity
     private Vector2f velocity;
     private float maxMovement;
     
-    private int aiID;
+    private int id;
+    
+    private IController c;
     
     private boolean onGround = false;
     
     private float width, height;
     
-    public Entity(String name, int aiID, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel) 
+    public Entity(String name, int id, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
     {
         this.name = name;
         this.color = color;
@@ -38,10 +40,17 @@ public abstract class Entity
         this.maxMovement = maxMovement;
         this.width = width; 
         this.height = height;
-        this.aiID = aiID;
+        setController(c);
+        
+        this.id = id;
     }
     
-    public void handleInput(Controller c) 
+    public void setController(IController c) 
+    {
+        this.c = c;
+    }
+    
+    public void handleInput() 
     {
         float dx = 0;
         float dy = 0;
@@ -90,8 +99,11 @@ public abstract class Entity
     
     public void update(Level level) 
     {
-        Controller c = Resource.getControllerManager().get(aiID);
-        if(c != null) handleInput(c);
+        if(c != null) 
+        { 
+            c.update();
+            handleInput(); 
+        }
         
         onGround = false;
         
@@ -120,4 +132,5 @@ public abstract class Entity
     public int getColorCode() { return color; }
     
     public String getName() { return name; }
+    public int getID() { return id; }
 }

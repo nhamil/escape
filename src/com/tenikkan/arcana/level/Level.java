@@ -1,12 +1,19 @@
 package com.tenikkan.arcana.level;
 
 import com.tenikkan.arcana.Resource;
+import com.tenikkan.arcana.entity.Entity;
+import com.tenikkan.math.Vector2f;
+import com.tenikkan.util.Manager;
 
 public class Level
 {
     private TileData NULL_TILEDATA = new TileData(255);
     private TileData tiles[];
     private int width, height;
+    
+    private Vector2f gravity = new Vector2f(0, -0.03f);
+    
+    private Manager<Entity> entities;
     
     public Level(int width, int height) 
     {
@@ -15,7 +22,24 @@ public class Level
         
         initTiles();
         genSimpleLevel();
+        
+        entities = new Manager<Entity>(1000);
     }
+    
+    public void update() 
+    {
+        int size = getEntities().size(); 
+        
+        for(int i = 0; i < size; i++) 
+        {
+            Entity e = getEntities().get(i);
+            if(e == null) continue;
+            e.accelerate(gravity); 
+            e.update(this); 
+        }
+    }
+    
+    public Manager<Entity> getEntities() { return entities; }
     
     public int getWidth() { return width; }
     public int getHeight() { return height; }
@@ -48,14 +72,6 @@ public class Level
         tiles = new TileData[width*height];
         for(int i = 0; i < tiles.length; i++)
             tiles[i] = new TileData((int)(Math.random() * 2) + 1);
-//        for(int y = height - 20; y < height; y++) 
-//        {
-//            for(int x = 0; x < width; x++) 
-//            {
-//                if(height - y < 20) setTile(x, y, 0);
-//                else if(Math.random() > 0.5) setTile(x, y, 0);
-//            }
-//        }
     }
     
     private void genSimpleLevel() 
