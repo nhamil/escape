@@ -9,19 +9,27 @@ import com.tenikkan.arcana.level.Level;
 
 public class Renderer
 {
-    private Graphics g;
     private Camera cam;
     private int width, height;
     
-    public Renderer(Graphics g, Camera cam, int width, int height) 
+    public Renderer(Camera cam, int width, int height) 
     {
-        this.g = g;
         this.width = width;
         this.height = height;
         this.cam = cam;
     }
     
-    public void drawLevel(Level level) 
+    public void setWidth(int width) 
+    {
+        this.width = width;
+    }
+    
+    public void setHeight(int height) 
+    {
+        this.height = height;
+    }
+    
+    public void drawLevel(Graphics g, Level level) 
     {
         float cx = cam.getPosition().getX();
         float cy = cam.getPosition().getY();
@@ -43,12 +51,12 @@ public class Renderer
                 g.setColor(new Color(level
                         .getTileData(xIndex, yIndex)
                         .getColorCode()));
-                drawRect(xIndex, yIndex, 1, 1);
+                drawRect(g, xIndex, yIndex, 1, 1);
             }
         }
     }
     
-    public void drawEntity(Entity e) 
+    public void drawEntity(Graphics g, Entity e) 
     {
         float x = e.getPosition().getX();
         float y = e.getPosition().getY();
@@ -56,10 +64,10 @@ public class Renderer
         float h = e.getHeight();
         
         g.setColor(new Color(e.getColorCode()));
-        drawRect(x, y, w, h);
+        drawRect(g, x, y, w, h);
     }
     
-    private void drawRect(float x, float y, float w, float h) 
+    private void drawRect(Graphics g, float x, float y, float w, float h) 
     {
         float cx = cam.getPosition().getX();
         float cy = cam.getPosition().getY();

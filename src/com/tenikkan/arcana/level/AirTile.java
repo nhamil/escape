@@ -2,9 +2,12 @@ package com.tenikkan.arcana.level;
 
 public class AirTile extends Tile
 {
-    public AirTile(int id) 
+    private boolean isAir;
+    
+    public AirTile(int id, boolean wall) 
     {
         super("grass", id);
+        isAir = wall;
     }
     
     public int getColorCode(int data) 
@@ -14,6 +17,6 @@ public class AirTile extends Tile
     
     public boolean isSolid(int data) 
     {
-        return false;
+        return isAir;
     }
 }

@@ -1,6 +1,8 @@
 package com.tenikkan.arcana.level;
 
-public abstract class Tile
+import com.tenikkan.util.Identifiable;
+
+public abstract class Tile implements Identifiable
 {
     private int id;
     private String name;

@@ -1,5 +1,7 @@
 package com.tenikkan.arcana;
 
+import java.awt.Graphics;
+
 import com.tenikkan.arcana.entity.*;
 import com.tenikkan.arcana.graphics.*;
 import com.tenikkan.arcana.input.*;
@@ -14,11 +16,13 @@ public class ArcanaGame extends GameLoop
     private Keyboard keys;
     private Renderer render;
     private Camera camera;
-    private IController controller;
+    private Controller controller;
     
     private Player player;
     
     private Level level;
+    
+    private Vector2f gravity;
     
     public ArcanaGame(double frames)
     {
@@ -36,30 +40,70 @@ public class ArcanaGame extends GameLoop
         
         keys = display.getKeyboard();
         
-        controller = new KeyboardController(keys);
+        initManagers();
         
-        render = new Renderer(display.getGraphics(), camera, display.getWidth(), display.getHeight());
+        render = new Renderer(camera, display.getWidth(), display.getHeight());
         
-        level = new Level(20, 40);
-        level.setTile(0, 0, 0);
+        level = new Level(1600, 800);
         
-        player = new Player("Thinic", new Vector2f(0, 40 - 19));
+        player = new Player("Thinic", new Vector2f(level.getWidth()/2, level.getHeight() - 3));
         
-        TileManager.add(new AirTile(0));
-        TileManager.add(new GrassTile(1));
-        TileManager.add(new StoneTile(2));
+        gravity = new Vector2f(0, -0.03f);
+        
+        time = System.currentTimeMillis();
+    }
+    
+    private void initManagers() 
+    {
+        controller = new KeyboardController(keys, 0);
+        Resource.getControllerManager().add(controller); 
+        
+        Resource.getTileManager().add(new AirTile(0, false));
+        Resource.getTileManager().add(new GrassTile(1));
+        Resource.getTileManager().add(new DirtTile(2));
+        Resource.getTileManager().add(new StoneTile(3));
+        Resource.getTileManager().add(new AirTile(255, true));
     }
 
+    long time = System.currentTimeMillis();
+    
     @Override
     public void update()
     {
-        player.update(controller);
+        render.setWidth(display.getWidth());
+        render.setHeight(display.getHeight());
         
-        camera.setPosition(player.getPosition().add(player.getWidth()/2, player.getHeight()/2));
+        player.accelerate(gravity);
+        player.update(level);
         
-        System.out.println(Physics.handleCollision(player, level));
+        positionCamera();
         
         display.setTitle(TITLE + " - " + getData());
+    }
+    
+    private void positionCamera() 
+    {
+        camera.setPosition(player.getPosition().add(player.getWidth()/2, player.getHeight()/2));
+        
+        if(camera.getPosition().getX() < display.getWidth() / 2 / camera.getPixelsPerUnit()) 
+        {
+            camera.getPosition().setX(display.getWidth() / 2 / camera.getPixelsPerUnit());
+        }
+        
+        if(camera.getPosition().getX() > level.getWidth() - display.getWidth() / 2 / camera.getPixelsPerUnit()) 
+        {
+            camera.getPosition().setX(level.getWidth() - display.getWidth() / 2 / camera.getPixelsPerUnit());
+        }
+        
+        if(camera.getPosition().getY() < display.getHeight() / 2 / camera.getPixelsPerUnit()) 
+        {
+            camera.getPosition().setY(display.getHeight() / 2 / camera.getPixelsPerUnit());
+        }
+        
+        if(camera.getPosition().getY() > level.getHeight() -  display.getHeight() / 2 / camera.getPixelsPerUnit()) 
+        {
+            camera.getPosition().setY(level.getHeight() -  display.getHeight() / 2 / camera.getPixelsPerUnit());
+        }
     }
 
     @Override
@@ -67,10 +111,12 @@ public class ArcanaGame extends GameLoop
     {
         display.clear();
         
-        render.drawLevel(level);
-        render.drawEntity(player);
+        Graphics g = display.getGraphics();
         
-        display.render();
+        render.drawLevel(g, level);
+        render.drawEntity(g, player);
+        
+        display.swapBuffers();
     }
     
     public static void main(String args[]) 

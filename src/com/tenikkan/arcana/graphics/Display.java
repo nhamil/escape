@@ -30,7 +30,6 @@ public class Display
     
     private JFrame frame;
     private Canvas canvas;
-    private BufferedImage screen;
     private Keyboard keyboard;
     private Mouse mouse;
     private Robot robot;
@@ -60,8 +59,6 @@ public class Display
         frame.add(canvas);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        
-        screen = new BufferedImage(sWidth, sHeight, BufferedImage.TYPE_INT_RGB);
         
         try
         {
@@ -99,13 +96,10 @@ public class Display
     public Keyboard getKeyboard() { return keyboard; }
     public Mouse getMouse() { return mouse; }
     
-    public Graphics getGraphics() { return screen.getGraphics(); }
+    public Graphics getGraphics() { return canvas.getBufferStrategy().getDrawGraphics(); }
     
-    public int getWidth() { return screen.getWidth(); }
-    public int getHeight() { return screen.getHeight(); }
-    
-    public int getFullWidth() { return canvas.getWidth(); }
-    public int getFullHeight() { return canvas.getHeight(); }
+    public int getWidth() { return canvas.getWidth(); }
+    public int getHeight() { return canvas.getHeight(); }
     
     public void show() { show(true); }
     public void hide() { show(false); }
@@ -118,13 +112,14 @@ public class Display
             frame.setVisible(true);
             canvas.setFocusable(true);
             canvas.requestFocus();
+            canvas.createBufferStrategy(2);
         } else 
         {
             frame.setVisible(false);
         }
     }
     
-    public void render() 
+    public void swapBuffers() 
     {
         if(!showing) return;
         
@@ -134,31 +129,10 @@ public class Display
             canvas.createBufferStrategy(3);
             return;
         }
-        Graphics g = bs.getDrawGraphics();
         
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getFullWidth(), getFullHeight());
-        
-        drawScale(g);
-        
-        g.dispose();
         bs.show();
     }
     
-    private void drawScale(Graphics g) 
-    {
-        float ratio = (float)getFullWidth()/getFullHeight() - (float)getWidth()/getHeight();
-        if(ratio > 0) 
-        {
-            int width = (int)((float)getFullHeight()/getHeight() * getWidth());
-            g.drawImage(screen, getFullWidth()/2 - width/2, 0, width, canvas.getHeight(), canvas);
-        } else 
-        {
-            int height = (int)((float)getFullWidth()/getWidth() * getHeight());
-            g.drawImage(screen, 0, getFullHeight()/2 - height/2, canvas.getWidth(), height, canvas);
-        }
-    }
-
     public float getRatio()
     {
         return (float)getWidth()/getHeight();

@@ -3,6 +3,7 @@
  */
 package com.tenikkan.arcana.entity;
 
+import com.tenikkan.arcana.Resource;
 import com.tenikkan.math.Vector2f;
 
 /**
@@ -13,6 +14,6 @@ public class Player extends Entity
 {   
     public Player(String name, Vector2f position) 
     {
-        super(name, 0xff00ff, 2.0f, 3.0f, 0.4f, position, new Vector2f(0, 0));
+        super(name, Resource.getControllerManager().getID("keyboard"), 0xff00ff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0));
     }
 }

@@ -19,6 +19,7 @@ public class Keyboard extends KeyAdapter
     public static final int UP = KeyEvent.VK_I;
     public static final int DOWN = KeyEvent.VK_K;
     public static final int ESCAPE = KeyEvent.VK_ESCAPE;
+    public static final int JUMP = KeyEvent.VK_SPACE;
     
     private boolean keys[]; 
     private List<Integer> keyList = new ArrayList<Integer>();
