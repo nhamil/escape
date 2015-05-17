@@ -1,6 +1,6 @@
-package com.tenikkan.arcana;
+package com.tenikkan.escape;
 
-import com.tenikkan.arcana.level.Tile;
+import com.tenikkan.escape.level.Tile;
 import com.tenikkan.util.Manager;
 
 public class Resource

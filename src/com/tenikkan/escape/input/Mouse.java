@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.tenikkan.arcana.input;
+package com.tenikkan.escape.input;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import com.tenikkan.arcana.graphics.Display;
+import com.tenikkan.escape.graphics.Display;
 
 /**
  * @author Nicholas Hamilton

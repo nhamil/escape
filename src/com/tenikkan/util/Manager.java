@@ -40,8 +40,9 @@ public class Manager<T extends Identifiable>
     @SuppressWarnings("unchecked")
     public T get(String name) 
     {
-        for(T t : (T[])types) 
+        for(Object o : types) 
         {
+            T t = (T)o;
             if(t.getName().equalsIgnoreCase(name)) return t;
         }
         return null;
@@ -70,6 +71,11 @@ public class Manager<T extends Identifiable>
             }
         }
         return -1;
+    }
+    
+    public Object[] toArray() 
+    {
+        return types;
     }
     
     private boolean inBounds(int id) 

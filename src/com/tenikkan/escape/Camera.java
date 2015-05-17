@@ -1,4 +1,4 @@
-package com.tenikkan.arcana;
+package com.tenikkan.escape;
 
 import com.tenikkan.math.Vector2f;
 

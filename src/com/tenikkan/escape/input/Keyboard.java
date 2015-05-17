@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.tenikkan.arcana.input;
+package com.tenikkan.escape.input;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

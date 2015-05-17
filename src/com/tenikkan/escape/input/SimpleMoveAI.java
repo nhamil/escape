@@ -1,7 +1,7 @@
-package com.tenikkan.arcana.input;
+package com.tenikkan.escape.input;
 
-import com.tenikkan.arcana.entity.Entity;
-import com.tenikkan.arcana.level.Level;
+import com.tenikkan.escape.entity.Entity;
+import com.tenikkan.escape.level.Level;
 import com.tenikkan.math.Vector2f;
 
 public class SimpleMoveAI implements IController
@@ -28,9 +28,17 @@ public class SimpleMoveAI implements IController
         
         if(x1 == x2 || Math.abs(x1 - x2) < 1e-1) 
         {
-            int nx = (int)(Math.random() * level.getWidth());
-            int ny = (int)(Math.random() * level.getHeight());
-            goalPos = new Vector2f(nx, ny);
+            int nx = (int)(Math.random() * 20) - 10;
+            goalPos = new Vector2f(x2 + nx, 0);
+        }
+        
+        Entity player = level.getEntities().get("player");
+        if(player != null) 
+        {
+            if(player.getPosition().sub(e.getPosition()).length() < 10) 
+            {
+                goalPos = player.getPosition().copy();
+            }
         }
         
         if(e.getPosition().getX() < goalPos.getX()) 

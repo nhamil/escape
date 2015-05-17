@@ -1,4 +1,4 @@
-package com.tenikkan.arcana.state;
+package com.tenikkan.escape.state;
 
 import com.tenikkan.util.GameLoop;
 import com.tenikkan.util.Manager;

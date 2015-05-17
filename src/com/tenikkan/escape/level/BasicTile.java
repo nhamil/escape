@@ -1,4 +1,4 @@
-package com.tenikkan.arcana.level;
+package com.tenikkan.escape.level;
 
 public class BasicTile extends Tile
 {
@@ -7,7 +7,7 @@ public class BasicTile extends Tile
     
     public BasicTile(String name, int id, boolean solid, int color) 
     {
-        super(name, id);
+        super(name, id, false);
         
         this.solid = solid;
         this.color = color;

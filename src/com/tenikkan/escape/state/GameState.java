@@ -1,8 +1,8 @@
-package com.tenikkan.arcana.state;
+package com.tenikkan.escape.state;
 
-import com.tenikkan.arcana.graphics.Display;
-import com.tenikkan.arcana.input.Keyboard;
-import com.tenikkan.arcana.input.Mouse;
+import com.tenikkan.escape.graphics.Display;
+import com.tenikkan.escape.input.Keyboard;
+import com.tenikkan.escape.input.Mouse;
 import com.tenikkan.util.Identifiable;
 
 public abstract class GameState implements Identifiable

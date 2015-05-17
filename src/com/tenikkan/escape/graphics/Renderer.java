@@ -1,11 +1,11 @@
-package com.tenikkan.arcana.graphics;
+package com.tenikkan.escape.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.tenikkan.arcana.Camera;
-import com.tenikkan.arcana.entity.Entity;
-import com.tenikkan.arcana.level.Level;
+import com.tenikkan.escape.Camera;
+import com.tenikkan.escape.entity.Entity;
+import com.tenikkan.escape.level.Level;
 
 public class Renderer
 {

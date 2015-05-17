@@ -1,7 +1,8 @@
-package com.tenikkan.arcana.level;
+package com.tenikkan.escape.level;
 
-import com.tenikkan.arcana.Resource;
-import com.tenikkan.arcana.entity.Entity;
+import com.tenikkan.escape.Physics;
+import com.tenikkan.escape.Resource;
+import com.tenikkan.escape.entity.Entity;
 import com.tenikkan.math.Vector2f;
 import com.tenikkan.util.Manager;
 
@@ -36,6 +37,7 @@ public class Level
             if(e == null) continue;
             e.accelerate(gravity); 
             e.update(this); 
+            e.setTouchingEndTile(Physics.collideEndTile(e, this)); 
         }
     }
     
@@ -60,6 +62,14 @@ public class Level
     public Tile getTile(int x, int y) 
     {
         return Resource.getTileManager().get(getTileData(x, y).getTileID());
+    }
+    
+    public int getTopY(int x) 
+    {
+        if(!inBounds(x, 0)) return -1;
+        for(int y = height - 1; y >= 0; y--) 
+            if(getTileData(x, y).isSolid()) return y;
+        return 0;
     }
     
     public boolean inBounds(int x, int y) 
@@ -111,5 +121,14 @@ public class Level
                 y += (int)(Math.random() * 3) - 1;;
             }
         }
+        
+        int endX = getWidth() - 4;
+        int endY = getTopY(endX) + 4;
+        int endID = Resource.getTileManager().get("end_tile").getID();
+        
+        setTile(endX + 0, endY + 0, endID);
+        setTile(endX + 1, endY + 0, endID);
+        setTile(endX + 0, endY + 1, endID);
+        setTile(endX + 1, endY + 1, endID);
     }
 }

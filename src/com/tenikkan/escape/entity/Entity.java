@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.tenikkan.arcana.entity;
+package com.tenikkan.escape.entity;
 
-import static com.tenikkan.arcana.input.IController.Input.*;
+import static com.tenikkan.escape.input.IController.Input.*;
 
-import com.tenikkan.arcana.Physics;
-import com.tenikkan.arcana.input.IController;
-import com.tenikkan.arcana.level.Level;
+import com.tenikkan.escape.Physics;
+import com.tenikkan.escape.input.IController;
+import com.tenikkan.escape.level.Level;
 import com.tenikkan.math.Vector2f;
 import com.tenikkan.util.Identifiable;
 
@@ -28,6 +28,7 @@ public abstract class Entity implements Identifiable
     private IController c;
     
     private boolean onGround = false;
+    private boolean touchingEndTile = false;
     
     private float width, height;
     
@@ -44,6 +45,9 @@ public abstract class Entity implements Identifiable
         
         this.id = id;
     }
+    
+    public boolean isTouchingEndTile() { return touchingEndTile; }
+    public void setTouchingEndTile(boolean touch) { touchingEndTile = touch; }
     
     public void setController(IController c) 
     {

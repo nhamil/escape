@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.tenikkan.arcana;
+package com.tenikkan.escape;
 
 /**
  * @author Nicholas Hamilton

@@ -1,12 +1,12 @@
-package com.tenikkan.arcana;
+package com.tenikkan.escape;
 
-import com.tenikkan.arcana.graphics.Display;
-import com.tenikkan.arcana.state.PlayState;
-import com.tenikkan.arcana.state.StateBasedGame;
+import com.tenikkan.escape.graphics.Display;
+import com.tenikkan.escape.state.PlayState;
+import com.tenikkan.escape.state.StateBasedGame;
 
 public class ArcanaGame extends StateBasedGame
 {
-    private static final String TITLE = "Arcana v0.1.0 beta";
+    private static final String TITLE = "Escape v0.2.0 beta";
     private Display display;
     
     public ArcanaGame(double frames)

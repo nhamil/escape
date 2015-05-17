@@ -1,17 +1,19 @@
-package com.tenikkan.arcana.state;
+package com.tenikkan.escape.state;
 
 import java.awt.Graphics;
 
-import com.tenikkan.arcana.Camera;
-import com.tenikkan.arcana.Resource;
-import com.tenikkan.arcana.entity.Entity;
-import com.tenikkan.arcana.entity.Player;
-import com.tenikkan.arcana.graphics.Display;
-import com.tenikkan.arcana.graphics.Renderer;
-import com.tenikkan.arcana.input.IController;
-import com.tenikkan.arcana.input.KeyboardController;
-import com.tenikkan.arcana.level.BasicTile;
-import com.tenikkan.arcana.level.Level;
+import com.tenikkan.escape.Camera;
+import com.tenikkan.escape.Resource;
+import com.tenikkan.escape.entity.Entity;
+import com.tenikkan.escape.entity.Player;
+import com.tenikkan.escape.entity.WalkingEntity;
+import com.tenikkan.escape.graphics.Display;
+import com.tenikkan.escape.graphics.Renderer;
+import com.tenikkan.escape.input.IController;
+import com.tenikkan.escape.input.KeyboardController;
+import com.tenikkan.escape.level.BasicTile;
+import com.tenikkan.escape.level.EndTile;
+import com.tenikkan.escape.level.Level;
 import com.tenikkan.math.Vector2f;
 
 public class PlayState extends GameState
@@ -31,20 +33,32 @@ public class PlayState extends GameState
     
     private void init() 
     {
-        camera = new Camera(0, 0, 16);
+        initManagers();
+        
+        camera = new Camera(0, 0, 8);
         
         level = new Level(300, 300);
+        level.getEntities().setSize(100000);
         
         playerController = new KeyboardController(getKeyboard());
         
-        player = new Player("Thinic", level.getEntities().getAvailableID(),
-                 new Vector2f(0, level.getHeight() - 5), playerController);
+        player = new Player("player", level.getEntities().getAvailableID(),
+                 new Vector2f(0, level.getTopY(0)), playerController);
         level.getEntities().add(player);
+        
+        for(int i = 0; i < 10; i++) 
+        {
+            int x = (int)(Math.random() * level.getWidth());
+            int y = level.getTopY(x) + 2;
+            Vector2f pos = new Vector2f(x, y);
+            Entity e = new WalkingEntity(level.getEntities().getAvailableID(), pos, level);
+            System.out.println(e.getID());
+            level.getEntities().add(e);
+        }
         
         render = new Renderer(camera, getDisplay().getWidth(), getDisplay().getHeight());
         
         positionCamera();
-        initManagers();
     }
     
     private void positionCamera() 
@@ -80,6 +94,7 @@ public class PlayState extends GameState
         Resource.getTileManager().add(new BasicTile("grass", 1, true, 0x11aa33));
         Resource.getTileManager().add(new BasicTile("dirt", 2, true, 0x7f7f00));
         Resource.getTileManager().add(new BasicTile("stone", 3, true, 0x7f7f7f));
+        Resource.getTileManager().add(new EndTile  ("end_tile", 4, 0xffd700));
         Resource.getTileManager().add(new BasicTile("boundry", 255, true, 0x66bbff));
     }
 
@@ -104,6 +119,12 @@ public class PlayState extends GameState
         
         render.drawLevel(g, level);
         render.drawEntity(g, player);
+        for(Object o : level.getEntities().toArray()) 
+        {
+            Entity e = (Entity)o;
+            if(!(e == null))
+                render.drawEntity(g, e); 
+        }
         
         display.swapBuffers();
     }

@@ -1,10 +1,10 @@
 /**
  * 
  */
-package com.tenikkan.arcana;
+package com.tenikkan.escape;
 
-import com.tenikkan.arcana.entity.Entity;
-import com.tenikkan.arcana.level.Level;
+import com.tenikkan.escape.entity.Entity;
+import com.tenikkan.escape.level.Level;
 import com.tenikkan.math.Vector2f;
 
 /**
@@ -13,7 +13,7 @@ import com.tenikkan.math.Vector2f;
  */
 public class Physics
 {   
-    public static boolean isCollision(Entity e, Level level) 
+    public static boolean collideEndTile(Entity e, Level level) 
     {
         int xStart = (int)Math.floor(e.getPosition().getX());
         int xEnd   = (int)Math.ceil (e.getPosition().getX() + e.getWidth());
@@ -27,10 +27,12 @@ public class Physics
         {
             for(int x = xStart; x < xEnd; x++) 
             {
-                if(!level.getTileData(x, y).isSolid()) continue;
-                tile.x = x;
-                tile.y = y;
-                if(collideAABBtoAABB(eBox, tile)) return true;
+                if(level.getTile(x, y).isEndTile()) 
+                {
+                    tile.x = x;
+                    tile.y = y;
+                    if(collideAABBtoAABB(eBox, tile)) return true;
+                }
             }
         }
         
@@ -79,7 +81,7 @@ public class Physics
         int yEnd   = (int)Math.floor(e.getPosition().getY() + e.getHeight());
         
         AABB eBox = new AABB(e.getPosition().getX() + vel.getX(), e
-                .getPosition().getY(), e.getWidth(), e.getHeight());
+                .getPosition().getY() + vel.getY(), e.getWidth(), e.getHeight());
         AABB tile = new AABB(0, 0, 1, 1);
         
         for (int y = yStart; y <= yEnd; y++)

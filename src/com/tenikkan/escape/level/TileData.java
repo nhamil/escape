@@ -1,6 +1,6 @@
-package com.tenikkan.arcana.level;
+package com.tenikkan.escape.level;
 
-import com.tenikkan.arcana.Resource;
+import com.tenikkan.escape.Resource;
 
 public class TileData
 {

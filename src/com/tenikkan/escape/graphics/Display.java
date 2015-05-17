@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.tenikkan.arcana.graphics;
+package com.tenikkan.escape.graphics;
 
 import java.awt.AWTException;
 import java.awt.Canvas;
@@ -16,8 +16,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import com.tenikkan.arcana.input.Keyboard;
-import com.tenikkan.arcana.input.Mouse;
+import com.tenikkan.escape.input.Keyboard;
+import com.tenikkan.escape.input.Mouse;
 
 /**
  * 

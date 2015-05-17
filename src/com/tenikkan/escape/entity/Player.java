@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.tenikkan.arcana.entity;
+package com.tenikkan.escape.entity;
 
-import com.tenikkan.arcana.input.IController;
+import com.tenikkan.escape.input.IController;
 import com.tenikkan.math.Vector2f;
 
 /**
