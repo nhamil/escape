@@ -7,21 +7,19 @@ import com.tenikkan.escape.state.StateBasedGame;
 public class ArcanaGame extends StateBasedGame
 {
     private static final String TITLE = "Escape v0.2.0 beta";
-    private Display display;
     
-    public ArcanaGame(double frames)
+    public ArcanaGame(double frames, Display display)
     {
-        super(frames, 60.0);
+        super(frames, 60.0, display);
     }
 
     @Override
     public void init()
     {
-        display = new Display(TITLE, 800, 600, 800, 600);
-        display.show();
-        display.setClearColor(0x333333);
+        getDisplay().show();
+        getDisplay().setClearColor(0x333333);
         
-        this.addState(new PlayState("play_state", 0, display));
+        this.addState(new PlayState("play_state", 0, this));
     }
     
     @Override
@@ -29,7 +27,7 @@ public class ArcanaGame extends StateBasedGame
     {
         super.update();
         
-        display.setTitle(TITLE + " - " + getData());
+        getDisplay().setTitle(TITLE + " - " + getData());
     }
     
     @Override
@@ -40,6 +38,6 @@ public class ArcanaGame extends StateBasedGame
     
     public static void main(String args[]) 
     {
-        new ArcanaGame(-1).run();
+        new ArcanaGame(-1, new Display(TITLE, 800, 600)).run();
     }
 }

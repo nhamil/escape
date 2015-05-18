@@ -1,5 +1,8 @@
 package com.tenikkan.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Manager<T extends Identifiable> 
 {
     private Object[] types;
@@ -76,6 +79,20 @@ public class Manager<T extends Identifiable>
     public Object[] toArray() 
     {
         return types;
+    }
+    
+    @SuppressWarnings( "unchecked" )
+    public Object[] getAll(String name) 
+    {
+        List<Object> list = new ArrayList<Object>();
+        
+        for(Object o : types) 
+        {
+            T t = (T)o;
+            if(t.getName().equalsIgnoreCase(name)) list.add(t);
+        }
+        
+        return list.toArray(new Object[list.size()]);
     }
     
     private boolean inBounds(int id) 

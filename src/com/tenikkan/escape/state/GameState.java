@@ -10,19 +10,22 @@ public abstract class GameState implements Identifiable
     private String name;
     private int id;
     private boolean isPaused;
-    private Display display;
+    private StateBasedGame game;
     
-    public GameState(String name, int id, Display display) 
+    public GameState(String name, int id, StateBasedGame game) 
     {
         this.name = name;
         this.id = id;
-        this.display = display;
+        this.game = game;
+        
+        reset();
     }
     
-    public Display getDisplay() { return display; }
-    public Keyboard getKeyboard() { return display.getKeyboard(); }
-    public Mouse getMouse() { return display.getMouse(); }
+    public Display getDisplay() { return game.getDisplay(); }
+    public Keyboard getKeyboard() { return game.getDisplay().getKeyboard(); }
+    public Mouse getMouse() { return game.getDisplay().getMouse(); }
     
+    public abstract void reset();
     public abstract void update();
     public abstract void render();
     

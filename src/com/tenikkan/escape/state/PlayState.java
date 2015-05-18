@@ -24,11 +24,16 @@ public class PlayState extends GameState
     private Renderer render;
     private IController playerController;
     
-    public PlayState(String name, int id, Display display) 
+    public PlayState(String name, int id, StateBasedGame game) 
     {
-        super("play_state", id, display);
+        super("play_state", id, game);
         
         init();
+    }
+    
+    public void reset() 
+    {
+        
     }
     
     private void init() 
@@ -37,7 +42,7 @@ public class PlayState extends GameState
         
         camera = new Camera(0, 0, 8);
         
-        level = new Level(300, 300);
+        level = new Level(width, 300);
         level.getEntities().setSize(100000);
         
         playerController = new KeyboardController(getKeyboard());
@@ -46,13 +51,12 @@ public class PlayState extends GameState
                  new Vector2f(0, level.getTopY(0)), playerController);
         level.getEntities().add(player);
         
-        for(int i = 0; i < 10; i++) 
+        for(int i = 0; i < numE; i++) 
         {
             int x = (int)(Math.random() * level.getWidth());
             int y = level.getTopY(x) + 2;
             Vector2f pos = new Vector2f(x, y);
             Entity e = new WalkingEntity(level.getEntities().getAvailableID(), pos, level);
-            System.out.println(e.getID());
             level.getEntities().add(e);
         }
         
@@ -97,7 +101,10 @@ public class PlayState extends GameState
         Resource.getTileManager().add(new EndTile  ("end_tile", 4, 0xffd700));
         Resource.getTileManager().add(new BasicTile("boundry", 255, true, 0x66bbff));
     }
-
+    
+    private int numE = 10;
+    private int width = 300;
+    
     @Override
     public void update()
     {
@@ -107,6 +114,28 @@ public class PlayState extends GameState
         level.update(); 
         
         positionCamera();
+        
+        if(player.isTouchingEndTile()) 
+        {
+            width = (int)(width * 1.25);
+            numE =  (int)(numE * 1.4);
+            
+            level = new Level(width, level.getHeight());
+            
+            player.getVelocity().set(0, 0);
+            player.getPosition().set(0, level.getTopY(0));
+            
+            level.getEntities().add(player);
+            
+            for(int i = 0; i < numE; i++) 
+            {
+                int x = (int)(Math.random() * level.getWidth());
+                int y = level.getTopY(x) + 2;
+                Vector2f pos = new Vector2f(x, y);
+                Entity e = new WalkingEntity(level.getEntities().getAvailableID(), pos, level);
+                level.getEntities().add(e);
+            }
+        }
     }
 
     @Override

@@ -14,6 +14,6 @@ public class Player extends Entity
 {   
     public Player(String name, int id, Vector2f position, IController c) 
     {
-        super(name, id, 0xff00ff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0), c);
+        super(name, id, 0xffffff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0), c);
     }
 }

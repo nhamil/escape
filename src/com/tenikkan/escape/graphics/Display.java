@@ -38,7 +38,7 @@ public class Display
     
     private Cursor normCur, blankCur;
     
-    public Display(String title, int width, int height, int sWidth, int sHeight) 
+    public Display(String title, int width, int height) 
     {
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
