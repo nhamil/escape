@@ -13,6 +13,14 @@ import com.tenikkan.math.Vector2f;
  */
 public class Physics
 {   
+    public static boolean collideEntities(Entity e1, Entity e2) 
+    {
+        AABB b1 = new AABB(e1.getPosition().getX(), e1.getPosition().getY(), e1.getWidth(), e1.getHeight());
+        AABB b2 = new AABB(e2.getPosition().getX(), e2.getPosition().getY(), e2.getWidth(), e2.getHeight());
+        
+        return collideAABBtoAABB(b1, b2);
+    }
+    
     public static boolean collideEndTile(Entity e, Level level) 
     {
         int xStart = (int)Math.floor(e.getPosition().getX());

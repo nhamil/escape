@@ -57,6 +57,7 @@ public class Display
                 new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor");
         
         frame.add(canvas);
+        frame.setResizable(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
         
@@ -131,6 +132,12 @@ public class Display
         }
         
         bs.show();
+    }
+    
+    public void update() 
+    {
+        keyboard.update();
+        mouse.update();
     }
     
     public float getRatio()

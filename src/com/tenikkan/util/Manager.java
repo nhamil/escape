@@ -89,7 +89,7 @@ public class Manager<T extends Identifiable>
         for(Object o : types) 
         {
             T t = (T)o;
-            if(t.getName().equalsIgnoreCase(name)) list.add(t);
+            if(t != null && t.getName().equalsIgnoreCase(name)) list.add(t);
         }
         
         return list.toArray(new Object[list.size()]);

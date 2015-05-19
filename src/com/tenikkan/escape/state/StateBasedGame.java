@@ -42,6 +42,7 @@ public class StateBasedGame extends GameLoop
     @Override
     public void update()
     {
+        display.update();
         GameState state = states.get(curID);
         if(state != null) state.update();
     }

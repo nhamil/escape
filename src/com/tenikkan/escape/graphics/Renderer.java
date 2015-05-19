@@ -82,4 +82,14 @@ public class Renderer
         
         g.fillRect((int)Math.ceil(xDraw), (int)Math.ceil(yDraw), (int)Math.ceil(w * ppu), (int)Math.ceil(h * ppu));
     }
+    
+    public float getWorldX(float screenX) 
+    {
+        return (screenX - 0.5f * width) / cam.getPixelsPerUnit() + cam.getPosition().getX();
+    }
+    
+    public float getWorldY(float screenY) 
+    {
+        return -( (screenY - 0.5f * height) / cam.getPixelsPerUnit() - cam.getPosition().getY());
+    }
 }

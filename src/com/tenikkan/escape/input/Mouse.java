@@ -14,6 +14,9 @@ import com.tenikkan.escape.graphics.Display;
  */
 public class Mouse extends MouseAdapter
 {   
+    public static final int MAIN_BUTTON = MouseEvent.BUTTON1;
+    public static final int SECONDARY_BUTTON = MouseEvent.BUTTON3;
+    
     private Display display;
     
     private boolean buttons[];
@@ -22,12 +25,13 @@ public class Mouse extends MouseAdapter
     
     private int oldGX, oldGY;
     private int gX, gY;
+    private int x, y;
     
     public Mouse(Display display) 
     {
         buttons = new boolean[5];
-        gX = oldGX = dx = 0;
-        gY = oldGY = dy = 0;
+        gX = oldGX = dx = x = 0;
+        gY = oldGY = dy = y = 0;
         this.display = display;
     }
     
@@ -40,7 +44,7 @@ public class Mouse extends MouseAdapter
         display.setMousePosition(gX, gY);
     }
     
-    public void setPosition(int gx, int gy) 
+    public void setGlobalPosition(int gx, int gy) 
     {
         display.setMousePosition(gx, gy);
         oldGX = gX;
@@ -49,6 +53,8 @@ public class Mouse extends MouseAdapter
         gY = gy;
         dx = gX - oldGX;
         dy = gY - oldGY;
+        x += dx;
+        y += dy;
     }
     
     public void update() 
@@ -58,6 +64,9 @@ public class Mouse extends MouseAdapter
         oldGX = gX;
         oldGY = gY;
     }
+    
+    public int getX() { return x; }
+    public int getY() { return y; }
     
     public int getDX() { return dx; }
     public int getDY() { return dy; }
@@ -74,6 +83,13 @@ public class Mouse extends MouseAdapter
     {
         gX = e.getXOnScreen();
         gY = e.getYOnScreen();
+        x = e.getX();
+        y = e.getY();
+    }
+    
+    public void mouseDragged(MouseEvent e) 
+    {
+        mouseMoved(e);
     }
     
     public void mousePressed(MouseEvent e) 

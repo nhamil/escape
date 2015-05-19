@@ -31,14 +31,36 @@ public class Level
     {
         int size = getEntities().size(); 
         
+        Object[] arrows = getEntities().getAll("arrow");
+        
         for(int i = 0; i < size; i++) 
         {
             Entity e = getEntities().get(i);
             if(e == null) continue;
-            e.accelerate(gravity); 
-            e.update(this); 
-            e.setTouchingEndTile(Physics.collideEndTile(e, this)); 
+            if(e.flaggedForDelete()) 
+            {
+                getEntities().remove(e.getID());
+            } else 
+            {
+                e.accelerate(gravity); 
+                e.update(this); 
+                e.setTouchingEndTile(Physics.collideEndTile(e, this)); 
+                if(e.getName().equalsIgnoreCase("simple_enemy")) 
+                {
+                    for(Object arrow : arrows) 
+                    {
+                        if(Physics.collideEntities(e, (Entity)arrow)) 
+                        {
+                            e.flagForDelete();
+                            ((Entity)arrow).flagForDelete();
+                            continue;
+                        }
+                    }
+                }
+            }
         }
+        
+        
     }
     
     public Manager<Entity> getEntities() { return entities; }

@@ -30,6 +30,8 @@ public abstract class Entity implements Identifiable
     private boolean onGround = false;
     private boolean touchingEndTile = false;
     
+    private boolean delete = false;
+    
     private float width, height;
     
     public Entity(String name, int id, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
@@ -45,6 +47,9 @@ public abstract class Entity implements Identifiable
         
         this.id = id;
     }
+    
+    public boolean flaggedForDelete() { return delete; }
+    public void flagForDelete() { delete = true; }
     
     public boolean isTouchingEndTile() { return touchingEndTile; }
     public void setTouchingEndTile(boolean touch) { touchingEndTile = touch; }

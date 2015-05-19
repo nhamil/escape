@@ -3,14 +3,17 @@ package com.tenikkan.escape.state;
 import java.awt.Graphics;
 
 import com.tenikkan.escape.Camera;
+import com.tenikkan.escape.Physics;
 import com.tenikkan.escape.Resource;
 import com.tenikkan.escape.entity.Entity;
 import com.tenikkan.escape.entity.Player;
-import com.tenikkan.escape.entity.WalkingEntity;
+import com.tenikkan.escape.entity.Projectile;
+import com.tenikkan.escape.entity.SimpleEnemyEntity;
 import com.tenikkan.escape.graphics.Display;
 import com.tenikkan.escape.graphics.Renderer;
 import com.tenikkan.escape.input.IController;
 import com.tenikkan.escape.input.KeyboardController;
+import com.tenikkan.escape.input.Mouse;
 import com.tenikkan.escape.level.BasicTile;
 import com.tenikkan.escape.level.EndTile;
 import com.tenikkan.escape.level.Level;
@@ -40,9 +43,9 @@ public class PlayState extends GameState
     {
         initManagers();
         
-        camera = new Camera(0, 0, 8);
+        camera = new Camera(0, 0, 16);
         
-        level = new Level(width, 300);
+        level = new Level(width, 800);
         level.getEntities().setSize(100000);
         
         playerController = new KeyboardController(getKeyboard());
@@ -53,13 +56,13 @@ public class PlayState extends GameState
         
         for(int i = 0; i < numE; i++) 
         {
-            int x = (int)(Math.random() * level.getWidth());
+            int x = (int)(Math.random() * (level.getWidth() - 50)) + 50;
             int y = level.getTopY(x) + 2;
             Vector2f pos = new Vector2f(x, y);
-            Entity e = new WalkingEntity(level.getEntities().getAvailableID(), pos, level);
+            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), pos, level);
             level.getEntities().add(e);
         }
-        
+               
         render = new Renderer(camera, getDisplay().getWidth(), getDisplay().getHeight());
         
         positionCamera();
@@ -105,15 +108,48 @@ public class PlayState extends GameState
     private int numE = 10;
     private int width = 300;
     
+    private int ticksSinceLastShot = 0;
+    
     @Override
     public void update()
     {
+        ticksSinceLastShot++;
+        
         render.setWidth(getDisplay().getWidth());
         render.setHeight(getDisplay().getHeight());
         
         level.update(); 
         
         positionCamera();
+        
+        if(getMouse().isButtonDown(Mouse.MAIN_BUTTON) && ticksSinceLastShot > 15) 
+        {
+            int id = level.getEntities().getAvailableID();
+            
+            float mX = render.getWorldX(getMouse().getX());
+            float mY = render.getWorldY(getMouse().getY());
+            
+            Vector2f vel = player.getPosition().add(player.getWidth() / 2, player.getHeight() / 2).sub(mX, mY).normalized().mul(-2);
+            
+            Entity arrow = new Projectile(id, 0x0000ff, 1.6f, 0.2f, player.getPosition().add(player.getWidth() / 2 - 0.8f, player.getHeight() / 2 - 0.1f), vel);
+            level.getEntities().add(arrow);
+            
+            ticksSinceLastShot = 0;
+        }
+        if(getMouse().isButtonDown(Mouse.SECONDARY_BUTTON) && ticksSinceLastShot > 5) 
+        {
+            int id = level.getEntities().getAvailableID();
+            
+            float mX = render.getWorldX(getMouse().getX());
+            float mY = render.getWorldY(getMouse().getY());
+            
+            Vector2f vel = player.getPosition().add(player.getWidth() / 2, player.getHeight() / 2).sub(mX, mY).normalized().mul(-1.5f);
+            
+            Entity arrow = new Projectile(id, 0xff00ff, 0.2f, 0.2f, player.getPosition().add(player.getWidth() / 2 - 0.1f, player.getHeight() / 2 - 0.1f), vel);
+            level.getEntities().add(arrow);
+            
+            ticksSinceLastShot = 0;
+        }
         
         if(player.isTouchingEndTile()) 
         {
@@ -127,13 +163,28 @@ public class PlayState extends GameState
             
             level.getEntities().add(player);
             
+            player = (Player) level.getEntities().get(player.getID());
+            
             for(int i = 0; i < numE; i++) 
             {
-                int x = (int)(Math.random() * level.getWidth());
+                int x = (int)(Math.random() * (level.getWidth() - 50)) + 50;
                 int y = level.getTopY(x) + 2;
                 Vector2f pos = new Vector2f(x, y);
-                Entity e = new WalkingEntity(level.getEntities().getAvailableID(), pos, level);
+                Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), pos, level);
                 level.getEntities().add(e);
+            }
+        }
+        
+        Object[] enemies = level.getEntities().getAll("simple_enemy");
+        for(Object o : enemies) 
+        {
+            Entity e = (Entity)o;
+            if(e != null) 
+            {
+                if(Physics.collideEntities(player, e)) 
+                {
+                    System.exit(0);
+                }
             }
         }
     }
