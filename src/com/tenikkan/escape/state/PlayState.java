@@ -12,7 +12,7 @@ import com.tenikkan.escape.entity.SimpleEnemyEntity;
 import com.tenikkan.escape.graphics.Display;
 import com.tenikkan.escape.graphics.Renderer;
 import com.tenikkan.escape.input.IController;
-import com.tenikkan.escape.input.KeyboardController;
+import com.tenikkan.escape.input.UserController;
 import com.tenikkan.escape.input.Mouse;
 import com.tenikkan.escape.level.BasicTile;
 import com.tenikkan.escape.level.EndTile;
@@ -45,10 +45,12 @@ public class PlayState extends GameState
         
         camera = new Camera(0, 0, 16);
         
+        render = new Renderer(camera, getDisplay().getWidth(), getDisplay().getHeight());
+        
         level = new Level(width, 800);
         level.getEntities().setSize(100000);
         
-        playerController = new KeyboardController(getKeyboard());
+        playerController = new UserController(getKeyboard(), getMouse(), render);
         
         player = new Player("player", level.getEntities().getAvailableID(),
                  new Vector2f(0, level.getTopY(0)), playerController);
@@ -62,8 +64,6 @@ public class PlayState extends GameState
             Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), pos, level);
             level.getEntities().add(e);
         }
-               
-        render = new Renderer(camera, getDisplay().getWidth(), getDisplay().getHeight());
         
         positionCamera();
     }
@@ -121,35 +121,6 @@ public class PlayState extends GameState
         level.update(); 
         
         positionCamera();
-        
-        if(getMouse().isButtonDown(Mouse.MAIN_BUTTON) && ticksSinceLastShot > 15) 
-        {
-            int id = level.getEntities().getAvailableID();
-            
-            float mX = render.getWorldX(getMouse().getX());
-            float mY = render.getWorldY(getMouse().getY());
-            
-            Vector2f vel = player.getPosition().add(player.getWidth() / 2, player.getHeight() / 2).sub(mX, mY).normalized().mul(-2);
-            
-            Entity arrow = new Projectile(id, 0x0000ff, 1.6f, 0.2f, player.getPosition().add(player.getWidth() / 2 - 0.8f, player.getHeight() / 2 - 0.1f), vel);
-            level.getEntities().add(arrow);
-            
-            ticksSinceLastShot = 0;
-        }
-        if(getMouse().isButtonDown(Mouse.SECONDARY_BUTTON) && ticksSinceLastShot > 5) 
-        {
-            int id = level.getEntities().getAvailableID();
-            
-            float mX = render.getWorldX(getMouse().getX());
-            float mY = render.getWorldY(getMouse().getY());
-            
-            Vector2f vel = player.getPosition().add(player.getWidth() / 2, player.getHeight() / 2).sub(mX, mY).normalized().mul(-1.5f);
-            
-            Entity arrow = new Projectile(id, 0xff00ff, 0.2f, 0.2f, player.getPosition().add(player.getWidth() / 2 - 0.1f, player.getHeight() / 2 - 0.1f), vel);
-            level.getEntities().add(arrow);
-            
-            ticksSinceLastShot = 0;
-        }
         
         if(player.isTouchingEndTile()) 
         {

@@ -58,6 +58,7 @@ public abstract class Entity implements Identifiable
     {
         this.c = c;
     }
+    public IController getController() { return c; }
     
     public void handleInput() 
     {

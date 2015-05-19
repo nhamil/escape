@@ -77,5 +77,10 @@ public class SimpleMoveAI implements IController
         default: return false;
         }
     }
+
+    public Vector2f getAimPosition()
+    {
+        return null;
+    }
     
 }

@@ -3,6 +3,8 @@
  */
 package com.tenikkan.escape.input;
 
+import com.tenikkan.math.Vector2f;
+
 /**
  * @author Nicholas Hamilton
  *
@@ -15,10 +17,14 @@ public interface IController
         MOVE_DOWN,
         MOVE_LEFT,
         MOVE_RIGHT,
-        JUMP
+        JUMP,
+        FIRE_PRIMARY_WEAPON,
+        FIRE_SECONDARY_WEAPON
     }
     
     public void update();
+    
+    public Vector2f getAimPosition();
     
     public boolean get(Input in);
 }

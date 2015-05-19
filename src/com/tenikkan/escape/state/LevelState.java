@@ -1,9 +1,8 @@
 package com.tenikkan.escape.state;
 
-import com.tenikkan.escape.graphics.Display;
-
 public class LevelState extends GameState
 {
+    @SuppressWarnings( "unused" )
     private int ticksLeft;
     
     public LevelState(int id, StateBasedGame game)
