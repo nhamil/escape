@@ -5,9 +5,9 @@ import com.tenikkan.math.Vector2f;
 
 public class Projectile extends Entity
 {
-    public Projectile(int id, int color, float width, float height, Vector2f pos, Vector2f vel)
+    public Projectile(int id, int dmg, float knock, int color, float width, float height, Vector2f pos, Vector2f vel)
     {
-        super("arrow", id, color, width, height, 999, pos, vel, null);
+        super("arrow", id, 1, dmg, knock, false, color, width, height, 999, pos, vel, null);
     }
     
     public void update(Level level) 

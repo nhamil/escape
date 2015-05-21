@@ -15,14 +15,34 @@ public class Player extends Entity
 {   
     private int lastShot = 0;
     
-    public Player(String name, int id, Vector2f position, IController c) 
+    private int invincibilityTicks = 60;
+    private int dmgTicksSince = 0;
+    
+    public Player(String name, int id, int hp, Vector2f position, IController c) 
     {
-        super(name, id, 0xffffff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0), c);
+        super(name, id, hp, 0, 0, true, 0xffffff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0), c);
+    }
+    
+    public void changeHealth(int dhp) 
+    {
+        if(dhp >= 0) 
+        {
+            super.changeHealth(dhp);
+            return;
+        }
+        if(dmgTicksSince >= invincibilityTicks) 
+        {
+            super.changeHealth(dhp);
+            dmgTicksSince = 0;
+            return;
+        }
     }
     
     public void update(Level level) 
     {
         super.update(level);
+        
+        dmgTicksSince++;
         
         lastShot++;
         
@@ -35,7 +55,7 @@ public class Player extends Entity
             
             Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-2f);
             
-            Entity arrow = new Projectile(id, 0x0000ff, 1.6f, 0.2f, getPosition().add(getWidth() / 2 - 0.8f, getHeight() / 2 - 0.1f), vel);
+            Entity arrow = new Projectile(id, 20, 3, 0x0000ff, 1.6f, 0.2f, getPosition().add(getWidth() / 2 - 0.8f, getHeight() / 2 - 0.1f), vel);
             level.getEntities().add(arrow);
             
             lastShot = 0;
@@ -49,7 +69,7 @@ public class Player extends Entity
             
             Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-1.5f);
             
-            Entity arrow = new Projectile(id, 0xffff00, 0.4f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, getHeight() / 2 - 0.1f), vel);
+            Entity arrow = new Projectile(id, 10, 0.1f, 0xffff00, 0.4f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, getHeight() / 2 - 0.1f), vel);
             level.getEntities().add(arrow);
             
             lastShot = 0;

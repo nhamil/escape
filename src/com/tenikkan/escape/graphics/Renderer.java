@@ -65,6 +65,21 @@ public class Renderer
         
         g.setColor(new Color(e.getColorCode()));
         drawRect(g, x, y, w, h);
+        
+        if(e.showHealth())
+        {
+            int hx = getScreenX(x - 0.2f);
+            int hw = getScreenX(x + w + 0.25f) - hx;
+            int hy = getScreenY(y + h + 0.6f);
+            int hh = getScreenY(y + h + 0.2f) - hy;
+            
+            float hpRatio = (float)e.getHealth()/e.getMaxHealth();
+            
+            g.setColor(Color.RED);
+            g.fillRect(hx, hy, hw, hh);
+            g.setColor(Color.GREEN);
+            g.fillRect(hx, hy, (int)(hw * hpRatio), hh);
+        }
     }
     
     private void drawRect(Graphics g, float x, float y, float w, float h) 
@@ -81,6 +96,16 @@ public class Renderer
         float xDraw = width/2f + x*ppu;
         
         g.fillRect((int)Math.ceil(xDraw), (int)Math.ceil(yDraw), (int)Math.ceil(w * ppu), (int)Math.ceil(h * ppu));
+    }
+    
+    public int getScreenX(float worldX) 
+    {
+        return (int)(width/2f + (worldX - cam.getPosition().getX())*cam.getPixelsPerUnit());
+    }
+    
+    public int getScreenY(float worldY) 
+    {
+        return (int)(height/2f + (cam.getPosition().getY() - worldY)*cam.getPixelsPerUnit());
     }
     
     public float getWorldX(float screenX) 

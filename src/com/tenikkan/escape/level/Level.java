@@ -49,11 +49,16 @@ public class Level
                 {
                     for(Object arrow : arrows) 
                     {
-                        if(Physics.collideEntities(e, (Entity)arrow)) 
+                        if(Physics.collideEntities(e, (Entity)arrow))
                         {
-                            e.flagForDelete();
-                            ((Entity)arrow).flagForDelete();
-                            continue;
+                            e.changeHealth(-((Entity)arrow).getDamage());
+                            e.applyKnockback((Entity)arrow);
+                            if(e.getHealth() <= 0) 
+                            {
+                                e.flagForDelete();
+                                ((Entity)arrow).flagForDelete();
+                                continue;
+                            } 
                         }
                     }
                 }

@@ -3,6 +3,8 @@
  */
 package com.tenikkan.escape.input;
 
+import java.awt.event.KeyEvent;
+
 import com.tenikkan.escape.graphics.Renderer;
 import com.tenikkan.math.Vector2f;
 
@@ -18,11 +20,15 @@ public class UserController implements IController
     
     private Vector2f pos;
     
-    public UserController(Keyboard keyboard, Mouse mouse, Renderer render) 
+    private boolean lefty;
+    
+    public UserController(Keyboard keyboard, Mouse mouse, Renderer render, boolean lefty) 
     {
         this.keyboard = keyboard;
         this.mouse = mouse;
         this.render = render;
+        
+        this.lefty = lefty;
         
         pos = new Vector2f(0, 0);
     }
@@ -38,13 +44,13 @@ public class UserController implements IController
     {
         switch(in) 
         {
-        case MOVE_UP: return keyboard.isKeyDown(Keyboard.UP);
-        case MOVE_DOWN: return keyboard.isKeyDown(Keyboard.DOWN);
-        case MOVE_LEFT: return keyboard.isKeyDown(Keyboard.LEFT);
-        case MOVE_RIGHT: return keyboard.isKeyDown(Keyboard.RIGHT);
+        case MOVE_UP: return keyboard.isKeyDown(Keyboard.UP) || keyboard.isKeyDown(KeyEvent.VK_W);
+        case MOVE_DOWN: return keyboard.isKeyDown(Keyboard.DOWN) || keyboard.isKeyDown(KeyEvent.VK_S);
+        case MOVE_LEFT: return keyboard.isKeyDown(Keyboard.LEFT) || keyboard.isKeyDown(KeyEvent.VK_A);
+        case MOVE_RIGHT: return keyboard.isKeyDown(Keyboard.RIGHT) || keyboard.isKeyDown(KeyEvent.VK_D);
         case JUMP: return keyboard.isKeyDown(Keyboard.JUMP);
-        case FIRE_PRIMARY_WEAPON: return mouse.isButtonDown(Mouse.MAIN_BUTTON);
-        case FIRE_SECONDARY_WEAPON: return mouse.isButtonDown(Mouse.SECONDARY_BUTTON);
+        case FIRE_PRIMARY_WEAPON: return lefty ? mouse.isButtonDown(Mouse.MAIN_BUTTON) : mouse.isButtonDown(Mouse.SECONDARY_BUTTON);
+        case FIRE_SECONDARY_WEAPON: return lefty ? mouse.isButtonDown(Mouse.SECONDARY_BUTTON) : mouse.isButtonDown(Mouse.MAIN_BUTTON);
         default: return false;
         }
     }

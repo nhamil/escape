@@ -34,7 +34,14 @@ public abstract class Entity implements Identifiable
     
     private float width, height;
     
-    public Entity(String name, int id, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
+    private int maxHealth;
+    private int health;
+    private int damage;
+    private boolean showHealth;
+    
+    private float knockback;
+    
+    public Entity(String name, int id, int hp, int dmg, float knock, boolean showHp, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
     {
         this.name = name;
         this.color = color;
@@ -45,8 +52,34 @@ public abstract class Entity implements Identifiable
         this.height = height;
         setController(c);
         
+        maxHealth = health = hp;
+        damage = dmg;
+        
+        showHealth = showHp;
+        
+        knockback = knock;
+        
         this.id = id;
     }
+    
+    public void applyKnockback(Entity e) 
+    {
+        getVelocity().setX(getVelocity().getX() + e.getVelocity().getX() * e.getKnockback());
+    }
+    
+    public float getKnockback() { return knockback; }
+    
+    public boolean showHealth() { return showHealth; }
+    
+    public int getDamage() { return damage; }
+    public void setDamage(int dmg) { damage = dmg; }
+    
+    public int getMaxHealth() { return maxHealth; }
+    public void setMaxHealth(int max) { maxHealth = max; }
+    
+    public int getHealth() { return health; }
+    public void setHealth(int hp) { health = hp; }
+    public void changeHealth(int dhp) { health += dhp; }
     
     public boolean flaggedForDelete() { return delete; }
     public void flagForDelete() { delete = true; }
