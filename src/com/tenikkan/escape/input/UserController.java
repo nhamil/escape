@@ -33,7 +33,7 @@ public class UserController implements IController
         pos = new Vector2f(0, 0);
     }
     
-    public void update() 
+    public void update()
     {
         pos.set(render.getWorldX(mouse.getX()), render.getWorldY(mouse.getY()));
     }

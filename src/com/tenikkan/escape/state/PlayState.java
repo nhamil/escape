@@ -49,7 +49,7 @@ public class PlayState extends GameState
         
         playerController = new UserController(getKeyboard(), getMouse(), render, true);
         
-        player = new Player("player", level.getEntities().getAvailableID(), 100,
+        player = new Player("player", level.getEntities().getAvailableID(), 10000,
                  new Vector2f(0, level.getTopY(0)), playerController);
         
         setupLevel();
@@ -94,8 +94,9 @@ public class PlayState extends GameState
         Resource.getTileManager().add(new BasicTile("boundry", 255, true, 0x66bbff));
     }
     
-    private int numE = 10;
-    private int width = 300;
+    private int numE = 5;
+    private int width = 500;
+    private int enemyHealth = 20;
     
     @Override
     public void update()
@@ -120,8 +121,11 @@ public class PlayState extends GameState
             {
                 if(Physics.collideEntities(player, e)) 
                 {
-                    player.changeHealth(-e.getDamage());
-                    player.applyKnockback(e);
+                    int oldHealth = player.getHealth();
+                    
+                    player.changeHealth(-e.getDamage()); 
+                    
+                    if(oldHealth != player.getHealth()) player.applyKnockback(e);
                     
                     if(player.getHealth() <= 0) 
                     {
@@ -157,6 +161,8 @@ public class PlayState extends GameState
         level = new Level(width, level.getHeight());
         level.getEntities().setSize(1000);
         
+        player.setEnergy(player.getMaxEnergy());
+        player.setHealth(player.getMaxHealth());
         player.getVelocity().set(0, 0);
         player.getPosition().set(1, level.getTopY(1));
         
@@ -169,11 +175,12 @@ public class PlayState extends GameState
             int x = (int)(Math.random() * (level.getWidth() - 50)) + 50;
             int y = level.getTopY(x) + 2;
             Vector2f pos = new Vector2f(x, y);
-            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), 100, 40, 5f, pos, level);
+            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), enemyHealth, 1000, 5f, pos, level);
             level.getEntities().add(e);
         }
         
-        width = (int)(width * 1.25);
+//        width = (int)(width * 1.25);
         numE =  (int)(numE * 1.4);
+        enemyHealth = (int)(enemyHealth * 1.3);
     }
 }

@@ -53,10 +53,10 @@ public class Level
                         {
                             e.changeHealth(-((Entity)arrow).getDamage());
                             e.applyKnockback((Entity)arrow);
+                            ((Entity)arrow).flagForDelete();
                             if(e.getHealth() <= 0) 
                             {
                                 e.flagForDelete();
-                                ((Entity)arrow).flagForDelete();
                                 continue;
                             } 
                         }

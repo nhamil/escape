@@ -39,9 +39,13 @@ public abstract class Entity implements Identifiable
     private int damage;
     private boolean showHealth;
     
+    private int energy;
+    private int maxEnergy;
+    private boolean showEnergy;
+    
     private float knockback;
     
-    public Entity(String name, int id, int hp, int dmg, float knock, boolean showHp, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
+    public Entity(String name, int id, int hp, int dmg, int energy, float knock, boolean showHp, boolean showEnergy, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
     {
         this.name = name;
         this.color = color;
@@ -54,6 +58,9 @@ public abstract class Entity implements Identifiable
         
         maxHealth = health = hp;
         damage = dmg;
+        maxEnergy = this.energy = energy;
+        
+        this.showEnergy = showEnergy;
         
         showHealth = showHp;
         
@@ -70,6 +77,14 @@ public abstract class Entity implements Identifiable
     public float getKnockback() { return knockback; }
     
     public boolean showHealth() { return showHealth; }
+    public boolean showEnergy() { return showEnergy; }
+    
+    public int getEnergy() { return energy; }
+    public void setEnergy(int e) { energy = e; }
+    public void changeEnergy(int de) { energy += de; }
+    
+    public int getMaxEnergy() { return maxEnergy; }
+    public void setMaxEnergy(int amt) { maxEnergy = amt; }
     
     public int getDamage() { return damage; }
     public void setDamage(int dmg) { damage = dmg; }
