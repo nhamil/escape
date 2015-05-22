@@ -53,7 +53,7 @@ public class PlayState extends GameState
         
         level = new Level(width, height);
         
-        playerController = new UserController(getKeyboard(), getMouse(), render, true);
+        playerController = new UserController(getKeyboard(), getMouse(), render, false);
         
         player = new Player("player", level.getEntities().getAvailableID(), 10000,
                  new Vector2f(0, level.getTopY(0)), playerController);
