@@ -35,6 +35,11 @@ public class PlayState extends GameState
     
     public void reset() 
     {
+        numE = 5;
+        width = 500;
+        height = 800;
+        enemyHealth = 50;
+        levelNum = 1;
         init();
     }
     

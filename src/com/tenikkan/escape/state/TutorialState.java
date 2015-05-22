@@ -53,7 +53,7 @@ public class TutorialState extends GameState
         g.drawString("Jump             - [Space]", 10, height * 9);
         g.drawString("Primary Attack   - [Left_Mouse_Button]", 10, height * 10);
         g.drawString("Secondary Attack - [Right_Mouse_Button]", 10, height * 11);
-        g.drawString("Title Screen     - [Escape]", 10, height * 11);
+        g.drawString("Title Screen     - [Escape]", 10, height * 12);
         
         g.drawString("You can only attack with ranged weapons. As you shoot, you", 10, height * 14);
         g.drawString("slowly run out of energy, which is displayed on the screen as", 10, height * 15);
