@@ -24,6 +24,9 @@ public class Keyboard extends KeyAdapter
     private boolean keys[]; 
     private List<Integer> keyList = new ArrayList<Integer>();
     
+    private boolean lastKey = false;
+    private boolean newKey = false;
+    
     public Keyboard() 
     {
         keys = new boolean[256];
@@ -31,8 +34,11 @@ public class Keyboard extends KeyAdapter
     
     public void update() 
     {
-        
+        lastKey = newKey;
+        newKey = false;
     }
+    
+    public boolean isKeyPressed() { return lastKey; }
     
     public boolean isKeyDown(int code) 
     {
@@ -49,6 +55,7 @@ public class Keyboard extends KeyAdapter
     public void keyPressed(KeyEvent e) 
     {
         int code = e.getKeyCode();
+        newKey = true;
         if(code < 0 || code >= 256) return;
         keys[code] = true;
         keyList.add(code);

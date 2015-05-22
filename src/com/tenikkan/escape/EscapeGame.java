@@ -3,10 +3,12 @@ package com.tenikkan.escape;
 import com.tenikkan.escape.graphics.Display;
 import com.tenikkan.escape.state.PlayState;
 import com.tenikkan.escape.state.StateBasedGame;
+import com.tenikkan.escape.state.TitleState;
+import com.tenikkan.escape.state.TutorialState;
 
 public class EscapeGame extends StateBasedGame
 {
-    private static final String TITLE = "Escape v0.2.0 beta";
+    private static final String TITLE = "Escape v0.4.1 BETA";
     
     public EscapeGame(double frames, Display display)
     {
@@ -19,7 +21,11 @@ public class EscapeGame extends StateBasedGame
         getDisplay().show();
         getDisplay().setClearColor(0x333333);
         
-        this.addState(new PlayState("play_state", 0, this));
+        this.addState(new PlayState(0, this));
+        this.addState(new TitleState(1, this));
+        this.addState(new TutorialState(2, this));
+        
+        setState("title_state");
     }
     
     @Override

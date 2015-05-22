@@ -21,6 +21,8 @@ public abstract class GameState implements Identifiable
         reset();
     }
     
+    public StateBasedGame getGame() { return game; }
+    
     public Display getDisplay() { return game.getDisplay(); }
     public Keyboard getKeyboard() { return game.getDisplay().getKeyboard(); }
     public Mouse getMouse() { return game.getDisplay().getMouse(); }

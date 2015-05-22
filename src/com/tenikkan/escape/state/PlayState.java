@@ -1,6 +1,7 @@
 package com.tenikkan.escape.state;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 import com.tenikkan.escape.Camera;
 import com.tenikkan.escape.Physics;
@@ -25,7 +26,7 @@ public class PlayState extends GameState
     private Renderer render;
     private IController playerController;
     
-    public PlayState(String name, int id, StateBasedGame game) 
+    public PlayState(int id, StateBasedGame game) 
     {
         super("play_state", id, game);
         
@@ -34,7 +35,7 @@ public class PlayState extends GameState
     
     public void reset() 
     {
-        
+        init();
     }
     
     private void init() 
@@ -108,6 +109,12 @@ public class PlayState extends GameState
         render.setWidth(getDisplay().getWidth());
         render.setHeight(getDisplay().getHeight());
         
+        if(getKeyboard().isKeyDown(KeyEvent.VK_ESCAPE)) 
+        {
+            reset();
+            getGame().setState("title_state");
+        }
+        
         level.update(); 
         
         positionCamera();
@@ -133,7 +140,8 @@ public class PlayState extends GameState
                     
                     if(player.getHealth() <= 0) 
                     {
-                        System.exit(0);
+                        reset();
+                        getGame().setState("title_state");
                     }
                 }
             }
