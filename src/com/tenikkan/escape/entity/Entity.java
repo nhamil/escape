@@ -27,6 +27,7 @@ public abstract class Entity implements Identifiable
     
     private IController c;
     
+    private boolean colliding = false;
     private boolean onGround = false;
     private boolean touchingEndTile = false;
     
@@ -45,7 +46,11 @@ public abstract class Entity implements Identifiable
     
     private float knockback;
     
-    public Entity(String name, int id, int hp, int dmg, int energy, float knock, boolean showHp, boolean showEnergy, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
+    private float gravity;
+    
+    private float jump = 0.6f;
+    
+    public Entity(String name, int id, float gravity, int hp, int dmg, int energy, float knock, boolean showHp, boolean showEnergy, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
     {
         this.name = name;
         this.color = color;
@@ -55,6 +60,8 @@ public abstract class Entity implements Identifiable
         this.width = width; 
         this.height = height;
         setController(c);
+        
+        this.gravity = gravity;
         
         maxHealth = health = hp;
         damage = dmg;
@@ -69,9 +76,11 @@ public abstract class Entity implements Identifiable
         this.id = id;
     }
     
+    public float gravityAmount() { return gravity; }
+    
     public void applyKnockback(Entity e) 
     {
-        getVelocity().setX(getVelocity().getX() + e.getVelocity().getX() * e.getKnockback());
+        getVelocity().setX(getVelocity().getX() + e.getVelocity().normalized().getX() * e.getKnockback());
     }
     
     public float getKnockback() { return knockback; }
@@ -94,7 +103,11 @@ public abstract class Entity implements Identifiable
     
     public int getHealth() { return health; }
     public void setHealth(int hp) { health = hp; }
-    public void changeHealth(int dhp) { health += dhp; }
+    public void changeHealth(int dhp) 
+    { 
+        health += dhp; 
+        if(health < 0) health = 0;
+    }
     
     public boolean flaggedForDelete() { return delete; }
     public void flagForDelete() { delete = true; }
@@ -107,6 +120,8 @@ public abstract class Entity implements Identifiable
         this.c = c;
     }
     public IController getController() { return c; }
+    
+    public void setJumpAmount(float amt) { jump = amt; }
     
     public void handleInput() 
     {
@@ -130,28 +145,30 @@ public abstract class Entity implements Identifiable
         
         if(c.get(MOVE_UP)) 
         {
-            dy += 0.01;
+            dy += 0.014;
         }
         
         if(c.get(MOVE_DOWN)) 
         {
-            dy -= 0.01;
+            dy -= 0.011;
         }
         
         if(c.get(JUMP) && onGround) 
         {
-            dy += 0.6f;
+            dy += jump;
         }
         
         float friction = 0.02f;
-        if(!moveSide || !((dx < 0 && velocity.getX() < 0) || (dx > 0 && velocity.getX() > 0))) 
+        if(!moveSide || !((dx < 0 && velocity.getX() < 0) || (dx > 0 && velocity.getX() > 0)) || Math.abs(velocity.getX()) > maxMovement) 
         {
-            if(velocity.getX() < -friction) velocity.setX(velocity.getX() + friction);
+            if(velocity.getX() < -friction) velocity.setX(velocity.getX() + friction); 
             else if(velocity.getX() > friction) velocity.setX(velocity.getX() - friction);
             else velocity.setX(0);
         }
         
-        velocity.setX(Math.max(-maxMovement, Math.min(maxMovement, velocity.getX() + dx)));
+        if(Math.abs(velocity.getX()) < maxMovement)
+            velocity.setX(Math.max(-maxMovement, Math.min(maxMovement, velocity.getX() + dx)));
+        
         velocity.setY(velocity.getY() + dy);
     }
     
@@ -164,6 +181,7 @@ public abstract class Entity implements Identifiable
         }
         
         onGround = false;
+        colliding = false;
         
         Physics.handleCollision(this, level);
         
@@ -172,6 +190,9 @@ public abstract class Entity implements Identifiable
     
     public boolean onGround() { return onGround; }
     public void setOnGround(boolean og) { onGround = og; }
+    
+    public boolean colliding() { return colliding; }
+    public void setColliding(boolean c) { colliding = c; }
     
     public float getWidth() { return width; }
     public float getHeight() { return height; }

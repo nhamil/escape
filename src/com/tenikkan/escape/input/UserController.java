@@ -44,8 +44,8 @@ public class UserController implements IController
     {
         switch(in) 
         {
-        case MOVE_UP: return keyboard.isKeyDown(Keyboard.UP) || keyboard.isKeyDown(KeyEvent.VK_W);
-        case MOVE_DOWN: return keyboard.isKeyDown(Keyboard.DOWN) || keyboard.isKeyDown(KeyEvent.VK_S);
+//        case MOVE_UP: return keyboard.isKeyDown(Keyboard.UP) || keyboard.isKeyDown(KeyEvent.VK_W);
+//        case MOVE_DOWN: return keyboard.isKeyDown(Keyboard.DOWN) || keyboard.isKeyDown(KeyEvent.VK_S);
         case MOVE_LEFT: return keyboard.isKeyDown(Keyboard.LEFT) || keyboard.isKeyDown(KeyEvent.VK_A);
         case MOVE_RIGHT: return keyboard.isKeyDown(Keyboard.RIGHT) || keyboard.isKeyDown(KeyEvent.VK_D);
         case JUMP: return keyboard.isKeyDown(Keyboard.JUMP);

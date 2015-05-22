@@ -107,10 +107,15 @@ public class Physics
                 tile.y = y;
                 if (!collideAABBtoAABB(eBox, tile))
                     continue;
-                if (e.getVelocity().getX() < 0)
+                if (e.getVelocity().getX() < 0) 
+                {
                     e.getPosition().setX(x + 1);
-                else
+                    e.setColliding(true);
+                } else 
+                {
+                    e.setColliding(true);
                     e.getPosition().setX(x - eBox.w);
+                }
                 
                 e.getVelocity().setX(0);
                 
@@ -140,8 +145,12 @@ public class Physics
                 {
                     e.getPosition().setY(y + 1);
                     e.setOnGround(true);
-                } else
+                    e.setColliding(true);
+                } else 
+                {
+                    e.setColliding(true);
                     e.getPosition().setY(y - eBox.h);
+                }
                 
                 e.getVelocity().setY(0);
                 

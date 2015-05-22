@@ -1,11 +1,11 @@
 package com.tenikkan.escape.state;
 
-public class LevelState extends GameState
+public class TitleState extends GameState
 {
     @SuppressWarnings( "unused" )
     private int ticksLeft;
     
-    public LevelState(int id, StateBasedGame game)
+    public TitleState(int id, StateBasedGame game)
     {
         super("level_state", id, game);
     }

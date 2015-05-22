@@ -3,6 +3,7 @@ package com.tenikkan.escape.level;
 import com.tenikkan.escape.Physics;
 import com.tenikkan.escape.Resource;
 import com.tenikkan.escape.entity.Entity;
+import com.tenikkan.escape.entity.Projectile;
 import com.tenikkan.math.Vector2f;
 import com.tenikkan.util.Manager;
 
@@ -42,14 +43,15 @@ public class Level
                 getEntities().remove(e.getID());
             } else 
             {
-                e.accelerate(gravity); 
+                e.accelerate(gravity.mul(e.gravityAmount())); 
+                if(e instanceof Projectile && e.colliding()) e.flagForDelete();
                 e.update(this); 
                 e.setTouchingEndTile(Physics.collideEndTile(e, this)); 
                 if(e.getName().equalsIgnoreCase("simple_enemy")) 
                 {
                     for(Object arrow : arrows) 
                     {
-                        if(Physics.collideEntities(e, (Entity)arrow))
+                        if(!((Entity)arrow).flaggedForDelete() && Physics.collideEntities(e, (Entity)arrow))
                         {
                             e.changeHealth(-((Entity)arrow).getDamage());
                             e.applyKnockback((Entity)arrow);
@@ -113,6 +115,9 @@ public class Level
     
     private void genSimpleLevel() 
     {
+        int minY = height/2 - 20;
+        int maxY = height/2 + 0;
+        
         for(int i = 0; i < tiles.length; i++)
             tiles[i] = new TileData(0);
         
@@ -120,8 +125,8 @@ public class Level
             int y = (int)(Math.random() * height);
             for(int x = 0; x < width; x++) 
             {
-                if(y < 0) y = 0;
-                if(y >= height) y = height - 1;
+                if(y < minY) y = minY;
+                if(y >= maxY) y = maxY - 1;
                 
                 for(int yy = y; yy >= 0; yy--) 
                 {
@@ -129,7 +134,7 @@ public class Level
                     setTile(x, yy, id);
                 }
                 
-                y += (int)(Math.random() * 3) - 1;
+                if(Math.random() < 0.5) y += (int)(Math.random() * 3) - 1;
             }
         }
         

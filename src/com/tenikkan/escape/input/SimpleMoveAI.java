@@ -35,7 +35,7 @@ public class SimpleMoveAI implements IController
         Entity player = level.getEntities().get("player");
         if(player != null) 
         {
-            if(player.getPosition().sub(e.getPosition()).length() < 30) 
+            if(player.getPosition().sub(e.getPosition()).length() < 70) 
             {
                 goalPos = player.getPosition().copy();
             }

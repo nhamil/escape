@@ -45,7 +45,7 @@ public class PlayState extends GameState
         
         render = new Renderer(camera, getDisplay().getWidth(), getDisplay().getHeight());
         
-        level = new Level(width, 800);
+        level = new Level(width, height);
         
         playerController = new UserController(getKeyboard(), getMouse(), render, true);
         
@@ -61,7 +61,9 @@ public class PlayState extends GameState
     {
         Display display = getDisplay();
         
-        camera.setPosition(player.getPosition().add(player.getWidth()/2, player.getHeight()/2));
+        Vector2f camPos = player.getPosition().add(player.getWidth()/2, player.getHeight()/2);
+        camPos.setY(height / 2f);
+        camera.setPosition(camPos);
         
         if(camera.getPosition().getX() < display.getWidth() / 2 / camera.getPixelsPerUnit()) 
         {
@@ -73,15 +75,15 @@ public class PlayState extends GameState
             camera.getPosition().setX(level.getWidth() - display.getWidth() / 2 / camera.getPixelsPerUnit());
         }
         
-        if(camera.getPosition().getY() < display.getHeight() / 2 / camera.getPixelsPerUnit()) 
-        {
-            camera.getPosition().setY(display.getHeight() / 2 / camera.getPixelsPerUnit());
-        }
-        
-        if(camera.getPosition().getY() > level.getHeight() -  display.getHeight() / 2 / camera.getPixelsPerUnit()) 
-        {
-            camera.getPosition().setY(level.getHeight() -  display.getHeight() / 2 / camera.getPixelsPerUnit());
-        }
+//        if(camera.getPosition().getY() < display.getHeight() / 2 / camera.getPixelsPerUnit()) 
+//        {
+//            camera.getPosition().setY(display.getHeight() / 2 / camera.getPixelsPerUnit());
+//        }
+//        
+//        if(camera.getPosition().getY() > level.getHeight() -  display.getHeight() / 2 / camera.getPixelsPerUnit()) 
+//        {
+//            camera.getPosition().setY(level.getHeight() -  display.getHeight() / 2 / camera.getPixelsPerUnit());
+//        }
     }
     
     private void initManagers() 
@@ -91,12 +93,14 @@ public class PlayState extends GameState
         Resource.getTileManager().add(new BasicTile("dirt", 2, true, 0x7f7f00));
         Resource.getTileManager().add(new BasicTile("stone", 3, true, 0x7f7f7f));
         Resource.getTileManager().add(new EndTile  ("end_tile", 4, 0xffd700));
-        Resource.getTileManager().add(new BasicTile("boundry", 255, true, 0x66bbff));
+        Resource.getTileManager().add(new BasicTile("boundry", 255, true, 0x3399cc));
     }
     
     private int numE = 5;
     private int width = 500;
-    private int enemyHealth = 20;
+    private int height = 800;
+    private int enemyHealth = 50;
+    private int levelNum = 1;
     
     @Override
     public void update()
@@ -142,6 +146,8 @@ public class PlayState extends GameState
         Display display = getDisplay();
         display.clear();
         
+        camera.setPixelsPerUnit(display.getWidth() / 100);
+        
         Graphics g = display.getGraphics();
         
         render.drawLevel(g, level);
@@ -161,10 +167,11 @@ public class PlayState extends GameState
         level = new Level(width, level.getHeight());
         level.getEntities().setSize(1000);
         
-        player.setEnergy(player.getMaxEnergy());
-        player.setHealth(player.getMaxHealth());
+        player.changeEnergy(player.getMaxEnergy() / 2);
+        player.changeHealth(player.getMaxHealth() / 2);
         player.getVelocity().set(0, 0);
         player.getPosition().set(1, level.getTopY(1));
+        player.setRechargeAmount((int)Math.ceil(levelNum/2f));
         
         level.getEntities().add(player);
         
@@ -172,15 +179,16 @@ public class PlayState extends GameState
         
         for(int i = 0; i < numE; i++) 
         {
-            int x = (int)(Math.random() * (level.getWidth() - 50)) + 50;
+            int x = (int)(Math.random() * (level.getWidth() - 100)) + 100;
             int y = level.getTopY(x) + 2;
             Vector2f pos = new Vector2f(x, y);
-            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), enemyHealth, 1000, 5f, pos, level);
+            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), enemyHealth, 1000, 0.8f, pos, level);
             level.getEntities().add(e);
         }
         
 //        width = (int)(width * 1.25);
-        numE =  (int)(numE * 1.4);
-        enemyHealth = (int)(enemyHealth * 1.3);
+        numE =  (int)(numE + 3);
+        enemyHealth = (int)(enemyHealth + 50);
+        levelNum++;
     }
 }
