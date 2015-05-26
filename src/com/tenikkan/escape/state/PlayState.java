@@ -1,5 +1,7 @@
 package com.tenikkan.escape.state;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -39,7 +41,7 @@ public class PlayState extends GameState
         width = 500;
         height = 800;
         enemyHealth = 50;
-        levelNum = 1;
+        levelNum = 0;
         init();
     }
     
@@ -106,7 +108,8 @@ public class PlayState extends GameState
     private int width = 500;
     private int height = 800;
     private int enemyHealth = 50;
-    private int levelNum = 1;
+    private int levelNum = 0;
+    private Font font = new Font(Font.MONOSPACED, Font.BOLD, 20);
     
     @Override
     public void update()
@@ -172,6 +175,10 @@ public class PlayState extends GameState
                 render.drawEntity(g, e); 
         }
         
+        g.setFont(font);
+        g.setColor(Color.BLACK);
+        g.drawString("Level: " + levelNum, 7, 20);
+        
         display.swapBuffers();
     }
     
@@ -184,7 +191,7 @@ public class PlayState extends GameState
         player.changeHealth(player.getMaxHealth() / 2);
         player.getVelocity().set(0, 0);
         player.getPosition().set(1, level.getTopY(1));
-        player.setRechargeAmount((int)Math.ceil(levelNum/2f));
+        player.setRechargeAmount((int)Math.ceil((levelNum+1)/2f));
         
         level.getEntities().add(player);
         
@@ -199,7 +206,6 @@ public class PlayState extends GameState
             level.getEntities().add(e);
         }
         
-//        width = (int)(width * 1.25);
         numE =  (int)(numE + 3);
         enemyHealth = (int)(enemyHealth + 50);
         levelNum++;
