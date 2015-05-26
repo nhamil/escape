@@ -50,7 +50,7 @@ public class TutorialState extends GameState
         
         g.drawString("Move left        - [A] or [J]", 10, height * 7);
         g.drawString("Move right       - [D] or [L]", 10, height * 8);
-        g.drawString("Jump             - [Space]", 10, height * 9);
+        g.drawString("Jump             - [W] or [I] or [Space]", 10, height * 9);
         g.drawString("Primary Attack   - [Left_Mouse_Button]", 10, height * 10);
         g.drawString("Secondary Attack - [Right_Mouse_Button]", 10, height * 11);
         g.drawString("Title Screen     - [Escape]", 10, height * 12);

@@ -48,7 +48,7 @@ public class UserController implements IController
 //        case MOVE_DOWN: return keyboard.isKeyDown(Keyboard.DOWN) || keyboard.isKeyDown(KeyEvent.VK_S);
         case MOVE_LEFT: return keyboard.isKeyDown(Keyboard.LEFT) || keyboard.isKeyDown(KeyEvent.VK_A);
         case MOVE_RIGHT: return keyboard.isKeyDown(Keyboard.RIGHT) || keyboard.isKeyDown(KeyEvent.VK_D);
-        case JUMP: return keyboard.isKeyDown(Keyboard.JUMP);
+        case JUMP: return keyboard.isKeyDown(Keyboard.JUMP) || keyboard.isKeyDown(Keyboard.UP) || keyboard.isKeyDown(KeyEvent.VK_W);
         case FIRE_PRIMARY_WEAPON: return lefty ? mouse.isButtonDown(Mouse.MAIN_BUTTON) : mouse.isButtonDown(Mouse.SECONDARY_BUTTON);
         case FIRE_SECONDARY_WEAPON: return lefty ? mouse.isButtonDown(Mouse.SECONDARY_BUTTON) : mouse.isButtonDown(Mouse.MAIN_BUTTON);
         default: return false;
