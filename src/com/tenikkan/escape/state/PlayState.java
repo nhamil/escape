@@ -106,7 +106,7 @@ public class PlayState extends GameState
         Resource.getTileManager().add(new BasicTile("stone", 3, true, "res/stone1.png", 0x7f7f7f));
         Resource.getTileManager().add(new BasicTile("stone", 13, true, "res/stone2.png", 0x7f7f7f));
         Resource.getTileManager().add(new BasicTile("stone", 23, true, "res/stone3.png", 0x7f7f7f));
-        Resource.getTileManager().add(new EndTile  ("end_tile", 4, null, 0xffd700));
+        Resource.getTileManager().add(new EndTile  ("end_tile", 4, "res/gold.png", 0xffd700));
         Resource.getTileManager().add(new BasicTile("boundry", 255, true, null, 0x3399cc));
     }
     
