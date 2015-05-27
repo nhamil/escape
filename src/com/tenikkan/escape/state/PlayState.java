@@ -199,7 +199,7 @@ public class PlayState extends GameState
         player.changeHealth(player.getMaxHealth() / 2);
         player.getVelocity().set(0, 0);
         player.getPosition().set(1, level.getTopY(1));
-        player.setRechargeAmount((int)Math.ceil(levelNum/2f));
+        player.setRechargeAmount((int)Math.ceil((levelNum+1)/2f));
         
         level.getEntities().add(player);
         
