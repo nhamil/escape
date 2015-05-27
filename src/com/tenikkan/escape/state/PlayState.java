@@ -225,11 +225,14 @@ public class PlayState extends GameState
             level.getEntities().add(e);
         }
         
-        int x = -(int)(Math.random() * 100) + level.getWidth() - 3;
-        int y = level.getTopY(x) + 2;
-        Vector2f pos = new Vector2f(x, y);
-        Entity e = new ShootingEnemyEntity(level.getEntities().getAvailableID(), enemyHealth * 3, 1400, 0.8f, 120, pos, level);
-        level.getEntities().add(e);
+        for(int i = 0; i < levelNum/2 + 1; i++) 
+        {
+            int x = -(int)(Math.random() * 100) + level.getWidth() - 3;
+            int y = level.getTopY(x) + 2;
+            Vector2f pos = new Vector2f(x, y);
+            Entity e = new ShootingEnemyEntity(level.getEntities().getAvailableID(), enemyHealth * 3, 1400, 0.8f, 120, pos, level);
+            level.getEntities().add(e);
+        }
         
         numE =  (int)(numE + 3);
         enemyHealth = (int)(enemyHealth + 50);

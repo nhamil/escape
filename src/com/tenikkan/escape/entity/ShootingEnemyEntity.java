@@ -2,7 +2,6 @@ package com.tenikkan.escape.entity;
 
 import com.tenikkan.escape.input.IController;
 import com.tenikkan.escape.input.MoveShootAI;
-import com.tenikkan.escape.input.SimpleMoveAI;
 import com.tenikkan.escape.level.Level;
 import com.tenikkan.math.Vector2f;
 
@@ -37,7 +36,7 @@ public class ShootingEnemyEntity extends Entity
             
             float scale = 0.3f;
             
-            Entity arrow = new EnemyProjectile(id, Entity.SPRITE_ICE_2, 0f, 1700, 0.9f, 0xff7f7f, 1.6f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset).mul(scale));
+            Entity arrow = new EnemyProjectile(id, Entity.SPRITE_ICE_2, 0f, 1000, 0.9f, 0xff7f7f, 1.6f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset).mul(scale));
             
             level.getEntities().add(arrow);
             

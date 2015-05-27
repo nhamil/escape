@@ -67,9 +67,9 @@ public class Player extends Entity
             float mX = getController().getAimPosition().getX();
             float mY = getController().getAimPosition().getY();
             
-            Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-1f);
+            Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-0.5f);
             
-            Vector2f offset = new Vector2f(0, (float)Math.random() - 1.0f).mul(0.1f);
+            Vector2f offset = new Vector2f(0, (float)Math.random() - 1f).mul(0.03f);
             
             Entity arrow = new Projectile(id, Entity.SPRITE_ICE, 0f, 200, 0.7f, 0x007f7f, 1.6f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset));
             
@@ -86,7 +86,7 @@ public class Player extends Entity
             float mX = getController().getAimPosition().getX();
             float mY = getController().getAimPosition().getY();
             
-            Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-1.5f);
+            Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-0.7f);
             
             Vector2f offset = new Vector2f(0, (float)Math.random() - 1.0f).mul(0.1f);
             
