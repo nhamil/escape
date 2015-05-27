@@ -2,6 +2,7 @@ package com.tenikkan.escape.level;
 
 import com.tenikkan.escape.Physics;
 import com.tenikkan.escape.Resource;
+import com.tenikkan.escape.entity.EnemyProjectile;
 import com.tenikkan.escape.entity.Entity;
 import com.tenikkan.escape.entity.Projectile;
 import com.tenikkan.math.Vector2f;
@@ -45,6 +46,7 @@ public class Level
             {
                 e.accelerate(gravity.mul(e.gravityAmount())); 
                 if(e instanceof Projectile && e.colliding()) e.flagForDelete();
+                if(e instanceof EnemyProjectile && e.colliding()) e.flagForDelete();
                 e.update(this); 
                 e.setTouchingEndTile(Physics.collideEndTile(e, this)); 
                 if(e.getName().equalsIgnoreCase("simple_enemy")) 

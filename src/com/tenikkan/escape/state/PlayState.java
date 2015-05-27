@@ -8,8 +8,10 @@ import java.awt.event.KeyEvent;
 import com.tenikkan.escape.Camera;
 import com.tenikkan.escape.Physics;
 import com.tenikkan.escape.Resource;
+import com.tenikkan.escape.entity.EnemyProjectile;
 import com.tenikkan.escape.entity.Entity;
 import com.tenikkan.escape.entity.Player;
+import com.tenikkan.escape.entity.ShootingEnemyEntity;
 import com.tenikkan.escape.entity.SimpleEnemyEntity;
 import com.tenikkan.escape.graphics.Display;
 import com.tenikkan.escape.graphics.Renderer;
@@ -139,6 +141,13 @@ public class PlayState extends GameState
         }
         
         Object[] enemies = level.getEntities().getAll("simple_enemy");
+        attackPlayer(enemies);
+        enemies = level.getEntities().getAll("enemy_arrow");
+        attackPlayer(enemies);
+    }
+    
+    private void attackPlayer(Object[] enemies) 
+    {
         for(Object o : enemies) 
         {
             Entity e = (Entity)o;
@@ -157,6 +166,8 @@ public class PlayState extends GameState
                         reset();
                         getGame().setState("title_state");
                     }
+                    
+                    if(e instanceof EnemyProjectile) e.flagForDelete();
                 }
             }
         }
@@ -213,6 +224,12 @@ public class PlayState extends GameState
             Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), enemyHealth, 1400, 0.8f, pos, level);
             level.getEntities().add(e);
         }
+        
+        int x = -(int)(Math.random() * 100) + level.getWidth() - 3;
+        int y = level.getTopY(x) + 2;
+        Vector2f pos = new Vector2f(x, y);
+        Entity e = new ShootingEnemyEntity(level.getEntities().getAvailableID(), enemyHealth * 3, 1400, 0.8f, 120, pos, level);
+        level.getEntities().add(e);
         
         numE =  (int)(numE + 3);
         enemyHealth = (int)(enemyHealth + 50);
