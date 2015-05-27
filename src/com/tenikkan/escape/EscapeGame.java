@@ -8,7 +8,7 @@ import com.tenikkan.escape.state.TutorialState;
 
 public class EscapeGame extends StateBasedGame
 {
-    private static final String TITLE = "Escape v0.4.3 BETA";
+    private static final String TITLE = "Escape v0.6.0 BETA";
     
     public EscapeGame(double frames, Display display)
     {

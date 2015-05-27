@@ -22,7 +22,7 @@ public class Player extends Entity
     
     public Player(String name, int id, int hp, Vector2f position, IController c) 
     {
-        super(name, id, 1f, hp, 0, 5000, 0f, true, true, 0xffffff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0), c);
+        super(name, id, Entity.SPRITE_PLAYER, 1f, hp, 0, 5000, 0f, true, true, 0xffffff, 1.9f, 2.9f, 0.4f, position, new Vector2f(0, 0), c);
     }
     
     public void changeHealth(int dhp) 
@@ -69,7 +69,9 @@ public class Player extends Entity
             
             Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-1f);
             
-            Entity arrow = new Projectile(id, 0f, 200, 0.7f, 0x007f7f, 1.6f, 0.2f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel);
+            Vector2f offset = new Vector2f(0, (float)Math.random() - 1.0f).mul(0.1f);
+            
+            Entity arrow = new Projectile(id, Entity.SPRITE_ICE, 0f, 200, 0.7f, 0x007f7f, 1.6f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset));
             
             level.getEntities().add(arrow);
             
@@ -86,7 +88,9 @@ public class Player extends Entity
             
             Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-1.5f);
             
-            Entity arrow = new Projectile(id, 0.0f, 4, 0.001f, 0xff7f00, 0.4f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel);
+            Vector2f offset = new Vector2f(0, (float)Math.random() - 1.0f).mul(0.1f);
+            
+            Entity arrow = new Projectile(id, Entity.SPRITE_FIRE, 0.0f, 6, 0.001f, 0xff7f00, 0.4f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset));
             level.getEntities().add(arrow);
             
 //            lastShot = 0;

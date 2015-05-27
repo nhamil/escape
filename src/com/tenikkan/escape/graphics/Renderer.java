@@ -2,6 +2,7 @@ package com.tenikkan.escape.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import com.tenikkan.escape.Camera;
 import com.tenikkan.escape.entity.Entity;
@@ -51,7 +52,8 @@ public class Renderer
                 g.setColor(new Color(level
                         .getTileData(xIndex, yIndex)
                         .getColorCode()));
-                drawRect(g, xIndex, yIndex, 1, 1);
+                BufferedImage img = level.getTile(xIndex, yIndex).getImage();
+                drawRect(g, xIndex, yIndex, 1, 1, img);
             }
         }
     }
@@ -64,7 +66,7 @@ public class Renderer
         float h = e.getHeight();
         
         g.setColor(new Color(e.getColorCode()));
-        drawRect(g, x, y, w, h);
+        drawRect(g, x, y, w, h, e.getImage());
         
         int hx = getScreenX(x - 0.2f);
         int hw = getScreenX(x + w + 0.25f) - hx;
@@ -93,7 +95,7 @@ public class Renderer
         }
     }
     
-    private void drawRect(Graphics g, float x, float y, float w, float h) 
+    private void drawRect(Graphics g, float x, float y, float w, float h, BufferedImage img) 
     {
         float cx = cam.getPosition().getX();
         float cy = cam.getPosition().getY();
@@ -106,7 +108,10 @@ public class Renderer
         float yDraw = height/2f + y*ppu - h * ppu;
         float xDraw = width/2f + x*ppu;
         
-        g.fillRect((int)Math.ceil(xDraw), (int)Math.ceil(yDraw), (int)Math.ceil(w * ppu), (int)Math.ceil(h * ppu));
+        if(img == null)
+            g.fillRect((int)Math.ceil(xDraw), (int)Math.ceil(yDraw), (int)Math.ceil(w * ppu), (int)Math.ceil(h * ppu));
+        else 
+            g.drawImage(img, (int)Math.ceil(xDraw), (int)Math.ceil(yDraw), (int)Math.ceil(w * ppu), (int)Math.ceil(h * ppu), null);
     }
     
     public int getScreenX(float worldX) 

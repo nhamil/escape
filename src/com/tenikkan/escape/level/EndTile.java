@@ -4,9 +4,9 @@ public class EndTile extends Tile
 {
     private int color;
     
-    public EndTile(String name, int id, int color) 
+    public EndTile(String name, int id, String img, int color) 
     {
-        super(name, id, true);
+        super(name, id, true, img);
         
         this.color = color;
     }

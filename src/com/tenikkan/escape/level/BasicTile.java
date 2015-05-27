@@ -5,9 +5,9 @@ public class BasicTile extends Tile
     private boolean solid;
     private int color;
     
-    public BasicTile(String name, int id, boolean solid, int color) 
+    public BasicTile(String name, int id, boolean solid, String img, int color) 
     {
-        super(name, id, false);
+        super(name, id, false, img);
         
         this.solid = solid;
         this.color = color;

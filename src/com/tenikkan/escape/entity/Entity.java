@@ -3,9 +3,16 @@
  */
 package com.tenikkan.escape.entity;
 
-import static com.tenikkan.escape.input.IController.Input.*;
+import static com.tenikkan.escape.input.IController.Input.JUMP;
+import static com.tenikkan.escape.input.IController.Input.MOVE_DOWN;
+import static com.tenikkan.escape.input.IController.Input.MOVE_LEFT;
+import static com.tenikkan.escape.input.IController.Input.MOVE_RIGHT;
+import static com.tenikkan.escape.input.IController.Input.MOVE_UP;
+
+import java.awt.image.BufferedImage;
 
 import com.tenikkan.escape.Physics;
+import com.tenikkan.escape.Resource;
 import com.tenikkan.escape.input.IController;
 import com.tenikkan.escape.level.Level;
 import com.tenikkan.math.Vector2f;
@@ -17,6 +24,16 @@ import com.tenikkan.util.Identifiable;
  */
 public abstract class Entity implements Identifiable
 {   
+    public static final int SPRITE_PLAYER = 0;
+    public static final int SPRITE_ENEMY = 1;
+    public static final int SPRITE_FIRE = 2;
+    public static final int SPRITE_ICE = 3;
+    
+    private static BufferedImage player = Resource.loadImage("res/player.png");
+    private static BufferedImage enemy = Resource.loadImage("res/enemy.png");
+    private static BufferedImage fire = Resource.loadImage("res/fire.png");
+    private static BufferedImage ice = Resource.loadImage("res/ice.png");
+    
     private int color;
     private String name;
     private Vector2f position;
@@ -50,7 +67,9 @@ public abstract class Entity implements Identifiable
     
     private float jump = 0.6f;
     
-    public Entity(String name, int id, float gravity, int hp, int dmg, int energy, float knock, boolean showHp, boolean showEnergy, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
+    private int imgID;
+    
+    public Entity(String name, int id, int imgID, float gravity, int hp, int dmg, int energy, float knock, boolean showHp, boolean showEnergy, int color, float width, float height, float maxMovement, Vector2f pos, Vector2f vel, IController c) 
     {
         this.name = name;
         this.color = color;
@@ -60,6 +79,8 @@ public abstract class Entity implements Identifiable
         this.width = width; 
         this.height = height;
         setController(c);
+        
+        this.imgID = imgID;
         
         this.gravity = gravity;
         
@@ -74,6 +95,18 @@ public abstract class Entity implements Identifiable
         knockback = knock;
         
         this.id = id;
+    }
+    
+    public BufferedImage getImage() 
+    {
+        switch(imgID) 
+        {
+        case 0: return player;
+        case 1: return enemy;
+        case 2: return fire;
+        case 3: return ice;
+        default: return null;
+        }
     }
     
     public float gravityAmount() { return gravity; }

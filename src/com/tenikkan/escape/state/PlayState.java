@@ -1,5 +1,7 @@
 package com.tenikkan.escape.state;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -39,7 +41,7 @@ public class PlayState extends GameState
         width = 500;
         height = 800;
         enemyHealth = 50;
-        levelNum = 1;
+        levelNum = 0;
         init();
     }
     
@@ -94,19 +96,26 @@ public class PlayState extends GameState
     
     private void initManagers() 
     {
-        Resource.getTileManager().add(new BasicTile("air", 0, false, 0x66bbff));
-        Resource.getTileManager().add(new BasicTile("grass", 1, true, 0x11aa33));
-        Resource.getTileManager().add(new BasicTile("dirt", 2, true, 0x7f7f00));
-        Resource.getTileManager().add(new BasicTile("stone", 3, true, 0x7f7f7f));
-        Resource.getTileManager().add(new EndTile  ("end_tile", 4, 0xffd700));
-        Resource.getTileManager().add(new BasicTile("boundry", 255, true, 0x3399cc));
+        Resource.getTileManager().add(new BasicTile("air", 0, false, null, 0x66bbff));
+        Resource.getTileManager().add(new BasicTile("grass", 1, true, "res/grass1.png", 0x11aa33));
+        Resource.getTileManager().add(new BasicTile("dirt", 2, true, "res/dirt1.png", 0x7f7f00));
+        Resource.getTileManager().add(new BasicTile("grass", 11, true, "res/grass2.png", 0x11aa33));
+        Resource.getTileManager().add(new BasicTile("dirt", 12, true, "res/dirt2.png", 0x7f7f00));
+        Resource.getTileManager().add(new BasicTile("grass", 21, true, "res/grass3.png", 0x11aa33));
+        Resource.getTileManager().add(new BasicTile("dirt", 22, true, "res/dirt3.png", 0x7f7f00));
+        Resource.getTileManager().add(new BasicTile("stone", 3, true, "res/stone1.png", 0x7f7f7f));
+        Resource.getTileManager().add(new BasicTile("stone", 13, true, "res/stone2.png", 0x7f7f7f));
+        Resource.getTileManager().add(new BasicTile("stone", 23, true, "res/stone3.png", 0x7f7f7f));
+        Resource.getTileManager().add(new EndTile  ("end_tile", 4, null, 0xffd700));
+        Resource.getTileManager().add(new BasicTile("boundry", 255, true, null, 0x3399cc));
     }
     
     private int numE = 5;
     private int width = 500;
     private int height = 800;
     private int enemyHealth = 50;
-    private int levelNum = 1;
+    private int levelNum = 0;
+    private Font font = new Font(Font.MONOSPACED, Font.BOLD, 20);
     
     @Override
     public void update()
@@ -159,7 +168,7 @@ public class PlayState extends GameState
         Display display = getDisplay();
         display.clear();
         
-        camera.setPixelsPerUnit(display.getWidth() / 100);
+        camera.setPixelsPerUnit(display.getWidth() / 50);
         
         Graphics g = display.getGraphics();
         
@@ -172,11 +181,17 @@ public class PlayState extends GameState
                 render.drawEntity(g, e); 
         }
         
+        g.setColor(Color.BLACK);
+        g.setFont(font);
+        g.drawString("Level: " + levelNum, 5, 20);
+        
         display.swapBuffers();
     }
     
     private void setupLevel() 
     {
+        levelNum++;
+        
         level = new Level(width, level.getHeight());
         level.getEntities().setSize(1000);
         
@@ -195,13 +210,12 @@ public class PlayState extends GameState
             int x = (int)(Math.random() * (level.getWidth() - 100)) + 100;
             int y = level.getTopY(x) + 2;
             Vector2f pos = new Vector2f(x, y);
-            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), enemyHealth, 1000, 0.8f, pos, level);
+            Entity e = new SimpleEnemyEntity(level.getEntities().getAvailableID(), enemyHealth, 1400, 0.8f, pos, level);
             level.getEntities().add(e);
         }
         
-//        width = (int)(width * 1.25);
         numE =  (int)(numE + 3);
         enemyHealth = (int)(enemyHealth + 50);
-        levelNum++;
+        
     }
 }

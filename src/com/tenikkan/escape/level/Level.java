@@ -115,7 +115,7 @@ public class Level
     
     private void genSimpleLevel() 
     {
-        int minY = height/2 - 20;
+        int minY = height/2 - 10;
         int maxY = height/2 + 0;
         
         for(int i = 0; i < tiles.length; i++)
@@ -130,7 +130,7 @@ public class Level
                 
                 for(int yy = y; yy >= 0; yy--) 
                 {
-                    int id = (y - yy < 1) ? 1 : 2;
+                    int id = (y - yy < 1) ? getTileType(1) : getTileType(2);
                     setTile(x, yy, id);
                 }
                 
@@ -145,9 +145,9 @@ public class Level
             int y = (int)(Math.random() * height);
             for(int j = 0; j < 30; j++) 
             {
-                if(getTileData(x, y).getTileID() == 2) 
+                if(getTileData(x, y).getTileID()%10 == 2) 
                 {
-                    setTile(x, y, 3);
+                    setTile(x, y, getTileType(3));
                 }
                 x += (int)(Math.random() * 3) - 1;
                 y += (int)(Math.random() * 3) - 1;;
@@ -162,5 +162,10 @@ public class Level
         setTile(endX + 1, endY + 0, endID);
         setTile(endX + 0, endY + 1, endID);
         setTile(endX + 1, endY + 1, endID);
+    }
+    
+    private int getTileType(int baseID) 
+    {
+        return baseID + 10*(int)(Math.random() * 3);
     }
 }
