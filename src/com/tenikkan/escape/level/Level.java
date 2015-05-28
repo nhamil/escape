@@ -29,8 +29,10 @@ public class Level
         entities = new Manager<Entity>(1000);
     }
     
-    public void update() 
+    public int update() 
     {
+        int killed = 0;
+        
         int size = getEntities().size(); 
         
         Object[] arrows = getEntities().getAll("arrow");
@@ -60,6 +62,7 @@ public class Level
                             ((Entity)arrow).flagForDelete();
                             if(e.getHealth() <= 0) 
                             {
+                                if(!e.flaggedForDelete()) killed++;
                                 e.flagForDelete();
                                 continue;
                             } 
@@ -69,7 +72,7 @@ public class Level
             }
         }
         
-        
+        return killed;
     }
     
     public Manager<Entity> getEntities() { return entities; }
@@ -140,12 +143,12 @@ public class Level
             }
         }
         
-        int amt = width*height / 160;
+        int amt = width*height / 160 * 1;
         for(int i = 0; i < amt; i++) 
         {
             int x = (int)(Math.random() * width);
             int y = (int)(Math.random() * height);
-            for(int j = 0; j < 30; j++) 
+            for(int j = 0; j < 3; j++) 
             {
                 if(getTileData(x, y).getTileID()%10 == 2) 
                 {
@@ -161,9 +164,9 @@ public class Level
         int endID = Resource.getTileManager().get("end_tile").getID();
         
         setTile(endX + 0, endY + 0, endID);
-        setTile(endX + 1, endY + 0, endID);
-        setTile(endX + 0, endY + 1, endID);
-        setTile(endX + 1, endY + 1, endID);
+//        setTile(endX + 1, endY + 0, endID);
+//        setTile(endX + 0, endY + 1, endID);
+//        setTile(endX + 1, endY + 1, endID);
     }
     
     private int getTileType(int baseID) 

@@ -11,6 +11,8 @@ public class EndTile extends Tile
         this.color = color;
     }
     
+    public void setColorCode(int col) { color = col; }
+    
     public boolean isSolid(int data) { return false; }
     public int getColorCode(int data) { return color; }
 }

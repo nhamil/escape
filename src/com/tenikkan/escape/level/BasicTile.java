@@ -13,6 +13,8 @@ public class BasicTile extends Tile
         this.color = color;
     }
     
+    public void setColorCode(int col) { color = col; }
+    
     public boolean isSolid(int data) { return solid; }
     public int getColorCode(int data) { return color; }
 }

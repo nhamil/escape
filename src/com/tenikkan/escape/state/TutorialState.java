@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import com.tenikkan.escape.Resource;
 import com.tenikkan.escape.graphics.Display;
 
 public class TutorialState extends GameState
@@ -20,6 +21,7 @@ public class TutorialState extends GameState
     @Override 
     public void reset() 
     {
+        getDisplay().setCursor(Resource.CURSOR);
     }
     
     @Override
@@ -45,20 +47,20 @@ public class TutorialState extends GameState
         g.drawString("Welcome to Escape.", 10, height * 1);
         g.drawString("You are stuck in a hostile land and must find a way out.", 10, height * 2);
         g.drawString("In order to leave a level, you must get to the end and touch", 10, height * 3);
-        g.drawString("the yellow tiles. Enemies become increasingly tougher as the", 10, height * 4);
+        g.drawString("the gold tile. Enemies become increasingly tougher as the", 10, height * 4);
         g.drawString("game progresses.", 10, height * 5);
         
         g.drawString("Move left        - [A] or [J]", 10, height * 7);
         g.drawString("Move right       - [D] or [L]", 10, height * 8);
         g.drawString("Jump             - [W] or [I] or [Space]", 10, height * 9);
-        g.drawString("Primary Attack   - [Left_Mouse_Button]", 10, height * 10);
-        g.drawString("Secondary Attack - [Right_Mouse_Button]", 10, height * 11);
+        g.drawString("Flame Attack     - [Left_Mouse_Button]", 10, height * 10);
+        g.drawString("Ice Attack       - [Right_Mouse_Button]", 10, height * 11);
         g.drawString("Title Screen     - [Escape]", 10, height * 12);
         
-        g.drawString("You can only attack with ranged weapons. As you shoot, you", 10, height * 14);
-        g.drawString("slowly run out of energy, which is displayed on the screen as", 10, height * 15);
-        g.drawString("the blue bar above you character. When you get hit by enemies,", 10, height * 16);
-        g.drawString("you loose health, which is shown with the greeen bar. As you", 10, height * 17);
+        g.drawString("You only have ranged attacks. As you shoot, you slowly run ", 10, height * 14);
+        g.drawString("out of energy, which is displayed on the screen as the blue ", 10, height * 15);
+        g.drawString("bar above you character. When you get hit by enemies, you ", 10, height * 16);
+        g.drawString("loose health, which is shown with the green bar. As you", 10, height * 17);
         g.drawString("progress through the game, you will regain energy faster. When", 10, height * 18);
         g.drawString("you start a new level, you gain back up to half of your full", 10, height * 19);
         g.drawString("energy and health.", 10, height * 20);

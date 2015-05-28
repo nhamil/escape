@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import com.tenikkan.escape.Resource;
 import com.tenikkan.escape.graphics.Display;
 
 public class TitleState extends GameState
@@ -20,6 +21,7 @@ public class TitleState extends GameState
     @Override 
     public void reset() 
     {
+        getDisplay().setCursor(Resource.CURSOR);
     }
     
     @Override

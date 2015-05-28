@@ -39,11 +39,19 @@ public class PlayState extends GameState
     
     public void reset() 
     {
+        getDisplay().setCursor(Resource.CROSSHAIR);
+        
         numE = 5;
         width = 500;
         height = 800;
         enemyHealth = 50;
         levelNum = 0;
+        killed = 0;
+        
+        skyR = 0x66;
+        skyG = 0xbb;
+        skyB = 0xff;
+        
         init();
     }
     
@@ -112,12 +120,17 @@ public class PlayState extends GameState
         Resource.getTileManager().add(new BasicTile("boundry", 255, true, null, 0x3399cc));
     }
     
+    private int skyR = 0x66;
+    private int skyG = 0xbb;
+    private int skyB = 0xff;
+    
     private int numE = 5;
     private int width = 500;
     private int height = 800;
     private int enemyHealth = 50;
     private int levelNum = 0;
     private Font font = new Font(Font.MONOSPACED, Font.BOLD, 20);
+    private int killed = 0;
     
     @Override
     public void update()
@@ -131,7 +144,7 @@ public class PlayState extends GameState
             getGame().setState("title_state");
         }
         
-        level.update(); 
+        killed += level.update(); 
         
         positionCamera();
         
@@ -194,7 +207,9 @@ public class PlayState extends GameState
         
         g.setColor(Color.BLACK);
         g.setFont(font);
-        g.drawString("Level: " + levelNum, 5, 20);
+        g.drawString("Level:          " + levelNum, 5, 20);
+        g.drawString("Shots Fired:    " + player.getShotsFired(), 5, 40);
+        g.drawString("Enemies Killed: " + killed, 5, 60);
         
         display.swapBuffers();
     }
@@ -203,6 +218,10 @@ public class PlayState extends GameState
     {
         levelNum++;
         
+        int col = skyR<<16|skyG<<8|skyB;
+        Resource.getTileManager().get("air").setColorCode(col);
+        Resource.getTileManager().get("boundry").setColorCode(col);
+        
         level = new Level(width, level.getHeight());
         level.getEntities().setSize(1000);
         
@@ -210,6 +229,7 @@ public class PlayState extends GameState
         player.changeHealth(player.getMaxHealth() / 2);
         player.getVelocity().set(0, 0);
         player.getPosition().set(1, level.getTopY(1));
+        
         player.setRechargeAmount((int)Math.ceil((levelNum+1)/2f));
         
         level.getEntities().add(player);
@@ -230,12 +250,18 @@ public class PlayState extends GameState
             int x = -(int)(Math.random() * 100) + level.getWidth() - 3;
             int y = level.getTopY(x) + 2;
             Vector2f pos = new Vector2f(x, y);
-            Entity e = new ShootingEnemyEntity(level.getEntities().getAvailableID(), enemyHealth * 3, 1400, 0.8f, 120, pos, level);
+            Entity e = new ShootingEnemyEntity(level.getEntities().getAvailableID(), enemyHealth * 3, 1400, 0.8f, 240, pos, level);
             level.getEntities().add(e);
         }
         
         numE =  (int)(numE + 3);
         enemyHealth = (int)(enemyHealth + 50);
         
+        skyR += 5;
+        skyG -= 40;
+        skyB -= 40;
+        skyR = Math.min(255, skyR);
+        skyG = Math.max(0, skyG);
+        skyB = Math.max(0, skyB);
     }
 }

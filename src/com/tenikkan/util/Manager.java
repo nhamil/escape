@@ -46,7 +46,7 @@ public class Manager<T extends Identifiable>
         for(Object o : types) 
         {
             T t = (T)o;
-            if(t.getName().equalsIgnoreCase(name)) return t;
+            if(t != null && t.getName().equalsIgnoreCase(name)) return t;
         }
         return null;
     }

@@ -34,6 +34,8 @@ public class Display
     private Mouse mouse;
     private Robot robot;
     
+    private Cursor normCursor;
+    
     private int clearColor = 0x000000;
     
     private Cursor normCur, blankCur;
@@ -61,6 +63,8 @@ public class Display
         frame.pack();
         frame.setLocationRelativeTo(null);
         
+        normCursor = canvas.getCursor();
+        
         try
         {
             robot = new Robot();
@@ -79,6 +83,12 @@ public class Display
         g.fillRect(0, 0, getWidth(), getHeight());
         
         g.dispose();
+    }
+    
+    public void setCursor(Cursor c) 
+    {
+        if(c == null) canvas.setCursor(normCursor);
+        else canvas.setCursor(c);
     }
     
     public void showCursor() { canvas.setCursor(normCur); }

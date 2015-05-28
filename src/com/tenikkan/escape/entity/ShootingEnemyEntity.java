@@ -32,11 +32,11 @@ public class ShootingEnemyEntity extends Entity
             
             Vector2f vel = getPosition().add(getWidth() / 2, getHeight() / 2).sub(mX, mY).normalized().mul(-1f);
             
-            Vector2f offset = new Vector2f(0, (float)Math.random() - 1.0f).mul(0.1f);
+            Vector2f offset = new Vector2f(0, (float)Math.random() - 1.0f).mul(0f);
             
             float scale = 0.3f;
             
-            Entity arrow = new EnemyProjectile(id, Entity.SPRITE_ICE_2, 0f, 1000, 0.9f, 0xff7f7f, 1.6f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset).mul(scale));
+            Entity arrow = new EnemyProjectile(id, Entity.SPRITE_FIRE_2, 0f, 1000, 0.4f, 0xff7f7f, 1.6f, 0.4f, getPosition().add(getWidth() / 2 - 0.8f, 3 * getHeight() / 4 - 0.1f), vel.add(offset).mul(scale));
             
             level.getEntities().add(arrow);
             

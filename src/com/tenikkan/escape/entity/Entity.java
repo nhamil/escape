@@ -29,12 +29,13 @@ public abstract class Entity implements Identifiable
     public static final int SPRITE_FIRE = 2;
     public static final int SPRITE_ICE = 3;
     public static final int SPRITE_ENEMY_STRONG = 4;
-    public static final int SPRITE_ICE_2 = 3;
+    public static final int SPRITE_FIRE_2 = 5;
     
     private static BufferedImage player = Resource.loadImage("res/player.png");
     private static BufferedImage enemy = Resource.loadImage("res/enemy.png");
     private static BufferedImage enemyStrong = Resource.loadImage("res/enemy2.png");
     private static BufferedImage fire = Resource.loadImage("res/fire.png");
+    private static BufferedImage firebolt = Resource.loadImage("res/firebolt.png");
     private static BufferedImage ice = Resource.loadImage("res/ice.png");
     
     private int color;
@@ -109,6 +110,7 @@ public abstract class Entity implements Identifiable
         case 2: return fire;
         case 3: return ice;
         case 4: return enemyStrong;
+        case 5: return firebolt;
         default: return null;
         }
     }

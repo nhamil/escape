@@ -22,6 +22,8 @@ public abstract class Tile implements Identifiable
     
     public BufferedImage getImage() { return img; }
     
+    public abstract void setColorCode(int col);
+    
     public abstract int getColorCode(int data);
     
     public abstract boolean isSolid(int data);
